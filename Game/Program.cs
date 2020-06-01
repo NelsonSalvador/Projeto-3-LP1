@@ -9,9 +9,10 @@ namespace Game
         {
             int rows = 0;
             int colunes = 0;
-            if (args.Length == 0)
+            if (args.Length < 2)
             {
-                System.Console.WriteLine("Please enter a numeric argument.");
+                System.Console.WriteLine("Please run Program with with -r and -c arguments");
+                System.Console.WriteLine("Exemple : dotnet run .\\Program.cs -- -c 21 -r 47");
                 Exit();
             }
             if (args [1] == "-r"){
@@ -25,8 +26,8 @@ namespace Game
             }
             else
             {
-                System.Console.WriteLine("Please enter a numeric argument.");
-                
+                System.Console.WriteLine("Please run Program with with -r and -c arguments");
+                System.Console.WriteLine("Exemple : dotnet run .\\Program.cs -- -c 21 -r 47");
                 Exit();
             }
             MapGeneration a = new MapGeneration();
