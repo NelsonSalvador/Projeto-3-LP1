@@ -4,6 +4,7 @@ namespace Game
 {
     public class Map
     {
+        
         public Map(int rows, int columns, Player player)
         {
             Random rand = new Random();
