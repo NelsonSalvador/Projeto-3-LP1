@@ -20,57 +20,69 @@ namespace Game
                 GetInput();
                 Console.WriteLine(Player.Coords.X + " , " + Player.Coords.Y);
                 //refresh
-                Map.refreshMap(rows, columns, Player);
+                Map.refreshMap(rows, columns);
                 //player move
                 GetInput();
                 Console.WriteLine(Player.Coords.X + " , " + Player.Coords.Y);
                 //refresh
-                Map.refreshMap(rows, columns, Player);
-                //newturn 
-
+                Map.refreshMap(rows, columns);
+                //newturn
+                
             }
         }
         public void GetInput()
         {
             string input = Console.ReadLine();
-            bool canMove;
             switch (input)
             {
                 case "w" :
-                    
-                    canMove = checkMove(Player.Coords.X, Player.Coords.Y-1);
-                    if (canMove == true)
-                        Player.Coords = new Coords(Player.Coords.X, Player.Coords.Y-1);
+                    if (checkMove(new Coords(Player.Coords.X-1, Player.Coords.Y)))
+                    {
+                        Map.layout[Player.Coords] = Objects.None;
+                        Player.Coords = new Coords(Player.Coords.X-1, Player.Coords.Y);
+                        Map.layout[Player.Coords] = Objects.Player;
+                    }
                     break;
 
                 case "a" :
-                    canMove = checkMove(Player.Coords.X-1, Player.Coords.Y);
-                    if (canMove == true)
-                        Player.Coords = new Coords(Player.Coords.X-1, Player.Coords.Y);
+                    if (checkMove(new Coords(Player.Coords.X, Player.Coords.Y-1)))
+                    {
+                        Map.layout[Player.Coords] = Objects.None;
+                        Player.Coords = new Coords(Player.Coords.X, Player.Coords.Y-1);
+                        Map.layout[Player.Coords] = Objects.Player;
+                    }
                     break;
 
                 case "s" :
-                    canMove = checkMove(Player.Coords.X, Player.Coords.Y+1);
-                    if (canMove == true)
-                        Player.Coords = new Coords(Player.Coords.X, Player.Coords.Y+1);
+                    if (checkMove(new Coords(Player.Coords.X+1, Player.Coords.Y)))
+                    {
+                        Map.layout[Player.Coords] = Objects.None;
+                        Player.Coords = new Coords(Player.Coords.X+1, Player.Coords.Y);
+                        Map.layout[Player.Coords] = Objects.Player;
+                    }
                     break;
 
                 case "d" :
-                    canMove = checkMove(Player.Coords.X+1, Player.Coords.Y);
-                    if (canMove == true)
-                        Player.Coords = new Coords(Player.Coords.X+1, Player.Coords.Y);
+                    if (checkMove(new Coords(Player.Coords.X, Player.Coords.Y+1)))
+                    {
+                        Map.layout[Player.Coords] = Objects.None;
+                        Player.Coords = new Coords(Player.Coords.X, Player.Coords.Y+1);
+                        Map.layout[Player.Coords] = Objects.Player;
+                    }
                     break;
             }
         }
-
-        public bool checkMove(int PlayerX, int PlayerY)
+        public bool checkMove(Coords coords)
         {
-            if (Map.layout.ContainsKey(new Coords (PlayerX, PlayerY)))
+            if (!Map.layout.ContainsKey(coords))
             {
                 return false;
             }
-
-            return true;
+            if (Map.layout[coords] == Objects.None)
+            {
+                return true;
+            }
+            return false;
         }
 
         public void CheckWin()

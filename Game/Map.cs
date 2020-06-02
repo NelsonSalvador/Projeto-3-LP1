@@ -6,41 +6,47 @@ namespace Game
     public class Map
     {
         public Dictionary<Coords , Objects> layout {get; set;}
+        public Random Random {get; set;}
+        public Player Player {get; set;}
         public Map(int rows, int columns, Player player)
         {
-            Random rand = new Random();
-            
+            Player = player;
+            Random = new Random();
             layout = new Dictionary<Coords, Objects>();
 
-            Generate(rows, columns, player, rand);
-            refreshMap(rows, columns, player);
+            Generate(rows, columns, player);
         }
-        public void Generate(int rows, int columns, Player player, Random rand)
+        public void Generate(int rows, int columns, Player player)
         {
-            int numberofwalls = (Math.Min(rows, columns))-1;
-
-            Coords spawn = new Coords(rand.Next(rows), 0);
-            layout[spawn] = Objects.Player;
-
-            Coords Victory = new Coords(rand.Next(rows), columns);
-            layout[Victory] = Objects.Win;
-
-            int rowsRand = rand.Next(rows);
-            int columnsRand = rand.Next(columns);
-            for (int i = 0; i < columns; i++)
+            for (int i = 0; i < rows; i++)
             {
-                for ( int j = 0; j < rows; j++)
+                for ( int j = 0; j < columns; j++)
                 {
-                    Coords none = new Coords(i, j);
-                    layout[none] = Objects.None;
+                    layout.Add(new Coords( i, j), Objects.None);
                 }
             }
-            
+            Coords spawn = new Coords(Random.Next(rows), 0);
+            layout[spawn] = Objects.Player;
+            player.Coords = spawn;
 
-            
+            Coords Victory = new Coords(Random.Next(rows), columns-1);
+            layout[Victory] = Objects.Win;
+
+            int numberofwalls = (Math.Min(rows, columns))-1;
+            while (numberofwalls != 0)
+            {
+                Coords wall = new Coords(Random.Next(rows), Random.Next(columns));
+                Console.WriteLine(wall);
+                if (layout[wall] == Objects.None)
+                {
+                    layout[wall] = Objects.Wall;
+                    numberofwalls--;
+                }
+            }
+            refreshMap(rows, columns);
         }
 
-        public void refreshMap(int rows, int columns, Player player)
+        public void refreshMap(int rows, int columns)
         {
             foreach(KeyValuePair<Coords, Objects> tile in layout)
             {
