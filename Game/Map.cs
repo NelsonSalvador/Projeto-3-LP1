@@ -13,7 +13,7 @@ namespace Game
         {
             int i = 0;
             int j = 0;
-
+            Coords victory = new Coords(columns, rand.Next(rows));
             int[,] iswall = new int[rows, columns];
             int numberofwalls = (Math.Min(rows, columns))-1;
             while(numberofwalls != 0)
@@ -22,7 +22,7 @@ namespace Game
                 int columnsRand = rand.Next(columns);
                 if (iswall[rowsRand,columnsRand] != 1)
                 {
-                    if (columnsRand == 0 && rowsRand == player.PosY)
+                    if (columnsRand == 0 && rowsRand == player.Coords.Y)
                     {
                     }
                     else
@@ -37,7 +37,7 @@ namespace Game
                 j = 0;
                 while (j != columns){
             
-                    if (j == player.PosX && i == player.PosY)
+                    if (j == player.Coords.X && i == player.Coords.Y)
                     {
                         Console.Write("P");
                         j++;
