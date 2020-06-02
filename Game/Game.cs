@@ -5,15 +5,18 @@ namespace Game
     public class Game
     {
         public Player Player {get; set;}
-        public Map Map {get; set;}
+        //public Map Map {get; set;}
+        public Map Map = new Map();
 
 
         public Game(int rows, int columns)
         {
             Player = new Player(rows, columns);
-            Map map = new Map(rows, columns, Player);
 
-            StartGame(rows,columns);      
+            
+            Map.SetMap(rows,columns, Player);
+
+            StartGame(rows,columns, Map.getMap());      
         }
         public void StartGame(int rows, int columns, string[,] map)
         {
@@ -21,10 +24,12 @@ namespace Game
             {
                 GetInput();
                 Console.WriteLine(Player.Coords.X + " , " + Player.Coords.Y);
+                Map.SetMap(rows,columns, Player);
                 Outputs.pritMap(map, rows, columns);
 
                 GetInput();
                 Console.WriteLine(Player.Coords.X + " , " + Player.Coords.Y);
+                Map.SetMap(rows,columns, Player);
                 Outputs.pritMap(map, rows, columns);
             }
         }
