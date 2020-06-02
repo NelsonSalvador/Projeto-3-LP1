@@ -1,67 +1,69 @@
 using System;
+using System.Collections.Generic;
 
 namespace Game
 {
     public class Map
     {
-        public int[,] Iswall {get; set;}
-
+        public Dictionary<Coords , Objects> layout {get; set;}
         public Map(int rows, int columns, Player player)
         {
             Random rand = new Random();
+            
+            layout = new Dictionary<Coords, Objects>();
+
             Generate(rows, columns, player, rand);
             refreshMap(rows, columns, player);
-            
         }
         public void Generate(int rows, int columns, Player player, Random rand)
         {
-            Coords victory = new Coords(columns, rand.Next(rows));
-            Iswall = new int[rows, columns];
             int numberofwalls = (Math.Min(rows, columns))-1;
-            while(numberofwalls != 0)
+
+            Coords spawn = new Coords(rand.Next(rows), 0);
+            layout[spawn] = Objects.Player;
+
+            Coords Victory = new Coords(rand.Next(rows), columns);
+            layout[Victory] = Objects.Win;
+
+            int rowsRand = rand.Next(rows);
+            int columnsRand = rand.Next(columns);
+            for (int i = 0; i < columns; i++)
             {
-                int rowsRand = rand.Next(rows);
-                int columnsRand = rand.Next(columns);
-                if (Iswall[rowsRand,columnsRand] != 1)
+                for ( int j = 0; j < rows; j++)
                 {
-                    if (columnsRand == 0 && rowsRand == player.Coords.Y)
-                    {
-                    }
-                    else
-                    {
-                        Iswall[rowsRand,columnsRand] = 1;
-                        numberofwalls--;
-                    }
+                    Coords none = new Coords(i, j);
+                    layout[none] = Objects.None;
                 }
             }
+            
+
+            
         }
 
         public void refreshMap(int rows, int columns, Player player)
         {
-            int j = 0;
-            int i = 0;
-            while(i != rows)
+            foreach(KeyValuePair<Coords, Objects> tile in layout)
             {
-                j = 0;
-                while (j != columns){
-            
-                    if (j == player.Coords.X && i == player.Coords.Y)
-                    {
-                        Console.Write("P");
-                        j++;
-                    }
-                    else if(Iswall[i,j] == 1){
-                        Console.Write("#");
-                        j++;
-                    }
-                    else
-                    {    
+                switch(tile.Value)
+                {
+                    case Objects.None:
                         Console.Write(".");
-                        j++;
-                    }
+                        break;
+                    case Objects.Player:
+                        Console.Write("P");
+                        break;
+                    case Objects.Wall:
+                        Console.Write("#");
+                        break;
+                    case Objects.Win:
+                        Console.Write("O");
+                        break;
                 }
-                Console.WriteLine("");
-                i++;
+
+                if (tile.Key.Y == (columns-1))
+                {
+                    Console.WriteLine("");
+                }
             }
         }
     }

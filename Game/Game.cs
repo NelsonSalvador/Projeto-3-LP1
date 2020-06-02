@@ -65,7 +65,7 @@ namespace Game
 
         public bool checkMove(int PlayerX, int PlayerY)
         {
-            if (Map.Iswall[PlayerY, PlayerX] == 1)
+            if (Map.layout.ContainsKey(new Coords (PlayerX, PlayerY)))
             {
                 return false;
             }
