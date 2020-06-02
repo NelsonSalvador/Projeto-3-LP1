@@ -10,18 +10,22 @@ namespace Game
         {
             Player = new Player(rows, columns);
             Map = new Map(rows, columns, Player);
-            StartGame();       
+            StartGame(rows, columns, Player);       
         }
-        public void StartGame()
+        public void StartGame(int rows, int columns, Player player)
         {
             while (!Player.IsDead())
             {
+                //player move
                 GetInput();
-                Console.WriteLine(Player.Coords.X + Player.Coords.Y);
-                //player move
+                Console.WriteLine(Player.Coords.X + " , " + Player.Coords.Y);
                 //refresh
+                Map.refreshMap(rows, columns, Player);
                 //player move
+                GetInput();
+                Console.WriteLine(Player.Coords.X + " , " + Player.Coords.Y);
                 //refresh
+                Map.refreshMap(rows, columns, Player);
                 //newturn 
 
             }
@@ -29,25 +33,46 @@ namespace Game
         public void GetInput()
         {
             string input = Console.ReadLine();
+            bool canMove;
             switch (input)
             {
                 case "w" :
-                    Player.Coords = new Coords(Player.Coords.X, Player.Coords.Y+1);
+                    
+                    canMove = checkMove(Player.Coords.X, Player.Coords.Y-1);
+                    if (canMove == true)
+                        Player.Coords = new Coords(Player.Coords.X, Player.Coords.Y-1);
                     break;
 
                 case "a" :
-                    Player.Coords = new Coords(Player.Coords.X-1, Player.Coords.Y);
+                    canMove = checkMove(Player.Coords.X-1, Player.Coords.Y);
+                    if (canMove == true)
+                        Player.Coords = new Coords(Player.Coords.X-1, Player.Coords.Y);
                     break;
 
                 case "s" :
-                    Player.Coords = new Coords(Player.Coords.X, Player.Coords.Y-1);
+                    canMove = checkMove(Player.Coords.X, Player.Coords.Y+1);
+                    if (canMove == true)
+                        Player.Coords = new Coords(Player.Coords.X, Player.Coords.Y+1);
                     break;
 
                 case "d" :
-                    Player.Coords = new Coords(Player.Coords.X+1, Player.Coords.Y);
+                    canMove = checkMove(Player.Coords.X+1, Player.Coords.Y);
+                    if (canMove == true)
+                        Player.Coords = new Coords(Player.Coords.X+1, Player.Coords.Y);
                     break;
             }
         }
+
+        public bool checkMove(int PlayerX, int PlayerY)
+        {
+            if (Map.Iswall[PlayerY, PlayerX] == 1)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public void CheckWin()
         {
 
