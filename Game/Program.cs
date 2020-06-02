@@ -31,8 +31,6 @@ namespace Game
                 Exit();
             }
             Menu menu = new Menu(rows, columns);
-            //MapGeneration a = new MapGeneration();
-            //a.Generate(rows,columns, player);
         }
 
         static void Exit()

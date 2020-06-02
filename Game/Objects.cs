@@ -6,7 +6,7 @@ namespace Game
         Enemy,
         Powerups,
         Player,
-        Win,
+        Victory,
         None
     }
 }
