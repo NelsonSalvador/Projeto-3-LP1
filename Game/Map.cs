@@ -30,13 +30,12 @@ namespace Game
             player.Coords = spawn;
 
             Coords Victory = new Coords(Random.Next(rows), columns-1);
-            layout[Victory] = Objects.Win;
+            layout[Victory] = Objects.Victory;
 
             int numberofwalls = (Math.Min(rows, columns))-1;
             while (numberofwalls != 0)
             {
                 Coords wall = new Coords(Random.Next(rows), Random.Next(columns));
-                Console.WriteLine(wall);
                 if (layout[wall] == Objects.None)
                 {
                     layout[wall] = Objects.Wall;
@@ -48,21 +47,22 @@ namespace Game
 
         public void refreshMap(int rows, int columns)
         {
+            Console.Clear();
             foreach(KeyValuePair<Coords, Objects> tile in layout)
             {
                 switch(tile.Value)
                 {
                     case Objects.None:
-                        Console.Write(".");
+                        Console.Write(". ");
                         break;
                     case Objects.Player:
-                        Console.Write("P");
+                        Console.Write("P ");
                         break;
                     case Objects.Wall:
-                        Console.Write("#");
+                        Console.Write("# ");
                         break;
-                    case Objects.Win:
-                        Console.Write("O");
+                    case Objects.Victory:
+                        Console.Write("O ");
                         break;
                 }
 
