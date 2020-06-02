@@ -1,3 +1,5 @@
+using System;
+
 namespace Game
 {
     /// <summary>
@@ -5,8 +7,24 @@ namespace Game
     /// </summary>
     public class Player
     {
-        public int posX = 4;
-        public int posY = 5;
-        public int HP = 0;
+        public int PosX {get; set;}
+        public int PosY {get; set;}
+        public int HP {get; set;}
+
+        public Player(int rows, int columns)
+        {
+            Random rand = new Random();
+            PosX = 0;
+            PosY = rand.Next(rows);
+            HP = (rows * columns)/4;
+        }
+        public bool IsDead()
+        {
+            if (HP == 0)
+            {
+                return true;
+            }
+            else return false;
+        }
     }
 }
