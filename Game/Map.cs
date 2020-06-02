@@ -4,7 +4,8 @@ namespace Game
 {
     public class Map
     {
-        public string[,] Generate(int rows, int columns, Player player)
+        
+        public Map(int rows, int columns, Player player)
         {
             //Random number generation
             Random rand = new Random();
