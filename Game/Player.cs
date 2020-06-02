@@ -7,15 +7,13 @@ namespace Game
     /// </summary>
     public class Player
     {
-        public int PosX {get; set;}
-        public int PosY {get; set;}
+        public Coords Coords {get; set;}
         public int HP {get; set;}
 
         public Player(int rows, int columns)
         {
             Random rand = new Random();
-            PosX = 0;
-            PosY = rand.Next(rows);
+            Coords = new Coords(0, rand.Next(rows));
             HP = (rows * columns)/4;
         }
         public bool IsDead()
@@ -24,7 +22,7 @@ namespace Game
             {
                 return true;
             }
-            else return false;
+            return false;
         }
     }
 }
