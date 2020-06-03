@@ -8,6 +8,7 @@ namespace Game
         public Map Map {get; set;}
         public bool Win {get; set;}
         public int Level{get; set;}
+        public Random Random {get; set;}
 
         public Game(int rows, int columns)
         {
@@ -15,6 +16,7 @@ namespace Game
             Player = new Player(rows, columns);
             Map = new Map(rows, columns, Player, Level);
             Win = false;
+            Random = new Random();
             StartGame(rows, columns, Player);       
         }
         public void StartGame(int rows, int columns, Player player)
@@ -121,8 +123,9 @@ namespace Game
 
         public bool EnemySelectMove(Enemy enemy)
         {
+            int moveNotAvaiable = 0;
             Coords enemyCoords = enemy.Coords;
-            Console.WriteLine(enemyCoords);
+            Coords newCoords;
 
             int distance = Math.Abs(Player.Coords.X - enemyCoords.X) + Math.Abs(Player.Coords.Y - enemyCoords.Y);
             
@@ -133,39 +136,142 @@ namespace Game
             
             if(distanceUp < distance)
             {
-                Coords newCoords = new Coords (enemyCoords.X-1, enemyCoords.Y);
+                newCoords = new Coords (enemyCoords.X-1, enemyCoords.Y);
                 if(EnemyCheckMove(enemy, newCoords, enemyCoords))
                 {
+                    moveNotAvaiable = 0;
+                    return true;
+                    
+                }
+                else
+                {
+                    moveNotAvaiable = 1;
+                }
+            }
+            else if( distanceLeft < distance)
+            {
+                newCoords = new Coords (enemyCoords.X, enemyCoords.Y-1);
+                if(EnemyCheckMove(enemy, newCoords, enemyCoords))
+                {
+                    moveNotAvaiable = 0;
                     return true;
                 }
+                else
+                {
+                    moveNotAvaiable = 2;
+                }
+            }
+            else if( distanceDown < distance)
+            {
+                newCoords = new Coords (enemyCoords.X+1, enemyCoords.Y);
+                if(EnemyCheckMove(enemy, newCoords, enemyCoords))
+                {
+                    moveNotAvaiable = 0;
+                    return true;
+                }
+                else
+                {
+                    moveNotAvaiable = 0;
+                    moveNotAvaiable = 3;
+                }
+            }
+            else if( distanceRight < distance)
+            {
+                newCoords = new Coords (enemyCoords.X, enemyCoords.Y+1);
+                if(EnemyCheckMove(enemy, newCoords, enemyCoords))
+                {
+                    moveNotAvaiable = 0;
+                    return true;
+                }
+                else
+                {
+                    moveNotAvaiable = 4;
+                }
+            }
+            
+            if(moveNotAvaiable>0)
+            {
+                Console.WriteLine("Entrou");
+                Coords coordsRandom;
+                int randomMove = Random.Next(1, 4);
+                bool validRandomMove = false;
+                while(!validRandomMove)
+                {
+                    switch(moveNotAvaiable)
+                    {
+                        case 1:
+                            if (randomMove == 1)
+                            {
+                                coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y-1);
+                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
+                            }
+                            else if(randomMove == 2)
+                            {
+                                coordsRandom = new Coords (enemyCoords.X+1, enemyCoords.Y);
+                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
+                            }
+                            else if(randomMove == 3)
+                            {
+                                coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y+1);
+                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
+                            }
+                            break;
+                        case 2:
+                            if (randomMove == 1)
+                            {
+                                coordsRandom = new Coords (enemyCoords.X-1, enemyCoords.Y);
+                                validRandomMove = validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
+                            }
+                            else if(randomMove == 2)
+                            {
+                                coordsRandom = new Coords (enemyCoords.X+1, enemyCoords.Y);
+                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
+                            }
+                            else if(randomMove == 3)
+                            {
+                                coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y+1);
+                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
+                            }
+                            break;
+                        case 3:
+                            if (randomMove == 1)
+                            {
+                                coordsRandom = new Coords (enemyCoords.X-1, enemyCoords.Y);
+                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
+                            }
+                            else if(randomMove == 2)
+                            {
+                                coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y-1);
+                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
+                            }
+                            else if(randomMove == 3)
+                            {
+                                coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y+1);
+                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
+                            }
+                            break;
+                        case 4:
+                            if (randomMove == 1)
+                            {
+                                coordsRandom = new Coords (enemyCoords.X-1, enemyCoords.Y);
+                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
+                            }
+                            else if(randomMove == 2)
+                            {
+                                coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y-1);
+                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
+                            }
+                            else if(randomMove == 3)
+                            {
+                                coordsRandom = new Coords (enemyCoords.X+1, enemyCoords.Y);
+                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
+                            }
+                            break;
+                    }
+                }
+                return true;
             }
 
-            if( distanceLeft < distance)
-            {
-                Coords newCoords = new Coords (enemyCoords.X, enemyCoords.Y-1);
-                if(EnemyCheckMove(enemy, newCoords, enemyCoords))
-                {
-                    return true;
-                }
-            }
-            
-            if( distanceDown < distance)
-            {
-                Coords newCoords = new Coords (enemyCoords.X+1, enemyCoords.Y);
-                if(EnemyCheckMove(enemy, newCoords, enemyCoords))
-                {
-                    return true;
-                }
-            }
-            
-            if( distanceRight < distance)
-            {
-                Coords newCoords = new Coords (enemyCoords.X, enemyCoords.Y+1);
-                if(EnemyCheckMove(enemy, newCoords, enemyCoords))
-                {
-                    return true;
-                }
-            }
             return false;
             
         }
@@ -200,7 +306,7 @@ namespace Game
         }
         public void UpdateUI(int rows, int columns)
         {
-            Console.Clear();
+            //Console.Clear();
             Console.WriteLine("Rogue-Like");
             Console.Write("P = Player | # = Obstacle | M = Minion | B = Boss | V = Victory\n"); 
             Console.Write("s = Small PowerUp | m = Medium PowerUp | l = Large PowerUp\n");
