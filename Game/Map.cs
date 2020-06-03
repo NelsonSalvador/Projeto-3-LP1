@@ -8,16 +8,19 @@ namespace Game
         public Dictionary<Coords , Objects> layout {get; set;}
         public Random Random {get; set;}
         public Player Player {get; set;}
-        public Map(int rows, int columns, Player player)
+        public List<Enemy> EnemyList {get; set;}
+        public Map(int rows, int columns, Player player, int level)
         {
             Player = player;
             Random = new Random();
             layout = new Dictionary<Coords, Objects>();
+            EnemyList = new List<Enemy>();
 
-            Generate(rows, columns, player);
+            Generate(rows, columns, player, level);
         }
-        public void Generate(int rows, int columns, Player player)
+        public void Generate(int rows, int columns, Player player, int level)
         {
+            //Fill the map with blank available 
             for (int i = 0; i < rows; i++)
             {
                 for ( int j = 0; j < columns; j++)
@@ -25,14 +28,20 @@ namespace Game
                     layout.Add(new Coords( i, j), Objects.None);
                 }
             }
+
+            //Define Random spawn of the player
             Coords spawn = new Coords(Random.Next(rows), 0);
             layout[spawn] = Objects.Player;
             player.Coords = spawn;
 
+            //Define Random spawn of the exit
             Coords Victory = new Coords(Random.Next(rows), columns-1);
             layout[Victory] = Objects.Victory;
 
+            //Calculates de number os walls
             int numberofwalls = (Math.Min(rows, columns))-1;
+
+            //Defines the placement of walls
             while (numberofwalls != 0)
             {
                 Coords wall = new Coords(Random.Next(rows), Random.Next(columns));
@@ -42,6 +51,37 @@ namespace Game
                     numberofwalls--;
                 }
             }
+
+            // Defines number os max enemies 
+            int maxNumberOfEnemies = 2*level+1;
+            if(maxNumberOfEnemies > (rows*columns)/2)
+            {
+                maxNumberOfEnemies = (rows*columns)/2;
+            }
+            int numberOfEnemies = Random.Next(1, maxNumberOfEnemies);
+            
+            while (numberOfEnemies != 0)
+            {
+                int percentage = Random.Next(101);
+                Coords enemies = new Coords(Random.Next(rows), Random.Next(columns));
+                Enemy enemy;
+                if (layout[enemies] == Objects.None)
+                {
+                    if(percentage >= 100 -(5*level))
+                    {
+                        enemy = new Enemy(enemies, Objects.Boss);
+                        layout[enemies] = Objects.Boss;
+                    }
+                    else
+                    {
+                        enemy = new Enemy(enemies, Objects.Minion);
+                        layout[enemies] = Objects.Minion;
+                    }
+                    numberOfEnemies--;
+                    EnemyList.Add(enemy);
+                }
+            }
+
             refreshMap(rows, columns);
         }
 
@@ -64,6 +104,16 @@ namespace Game
                     case Objects.Victory:
                         Console.Write("O ");
                         break;
+                    case Objects.Minion:
+                        
+                        Console.Write("M ");
+                        break;
+                    case Objects.Boss:
+                        
+                        Console.Write("B ");
+                        break;
+                        
+                        
                 }
 
                 if (tile.Key.Y == (columns-1))
