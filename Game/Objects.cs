@@ -3,7 +3,8 @@ namespace Game
     public enum Objects
     {
         Wall,
-        Enemy,
+        Minion,
+        Boss,
         Powerups,
         Player,
         Victory,

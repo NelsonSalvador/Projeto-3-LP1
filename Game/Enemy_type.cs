@@ -1,6 +1,6 @@
 namespace Game
 {
-    enum Enemy_type
+    public enum Enemy_type
     {
         Minion,
         Boss
