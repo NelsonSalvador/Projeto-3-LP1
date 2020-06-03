@@ -19,29 +19,32 @@ namespace Game
         }
         public void StartGame(int rows, int columns, Player player)
         {
+            UpdateUI(rows,columns);
             while (!Player.IsDead() && !Win)
             {
                 //player move
                 GetInput();
                 if (Win)
                     break;
+                if (Player.IsDead())
+                    break;
                 //refresh
-                Map.refreshMap(rows, columns);
+                UpdateUI(rows,columns);
                 //player move
                 GetInput();
                 //refresh
-                Map.refreshMap(rows, columns);
+                UpdateUI(rows,columns);
 
-                bool enemyMove = enemySelectMove();
-
-                Map.refreshMap(rows, columns);
-                
+                foreach(Enemy enemy in Map.EnemyList)
+                {
+                    bool enemyMove = EnemySelectMove(enemy);
+                }
+                UpdateUI(rows,columns);
                 //newturn
             }
             if (Win)
             {
                 Level++;
-                Player = new Player(rows, columns);
                 Map = new Map(rows, columns, Player, Level);
                 Win = false;
                 StartGame(rows, columns, Player);
@@ -54,7 +57,7 @@ namespace Game
             switch (input)
             {
                 case "w" :
-                    if (checkMove(new Coords(Player.Coords.X-1, Player.Coords.Y)))
+                    if (CheckMove(new Coords(Player.Coords.X-1, Player.Coords.Y)))
                     {
                         none = Map.layout[new Coords(Player.Coords.X-1, Player.Coords.Y)];
                         Map.layout[Player.Coords] = Objects.None;
@@ -64,7 +67,7 @@ namespace Game
                     break;
 
                 case "a" :
-                    if (checkMove(new Coords(Player.Coords.X, Player.Coords.Y-1)))
+                    if (CheckMove(new Coords(Player.Coords.X, Player.Coords.Y-1)))
                     {
                         none = Map.layout[new Coords(Player.Coords.X, Player.Coords.Y-1)];
                         Map.layout[Player.Coords] = Objects.None;
@@ -74,7 +77,7 @@ namespace Game
                     break;
 
                 case "s" :
-                    if (checkMove(new Coords(Player.Coords.X+1, Player.Coords.Y)))
+                    if (CheckMove(new Coords(Player.Coords.X+1, Player.Coords.Y)))
                     {
                         none = Map.layout[new Coords(Player.Coords.X+1, Player.Coords.Y)];
                         Map.layout[Player.Coords] = Objects.None;
@@ -84,7 +87,7 @@ namespace Game
                     break;
 
                 case "d" :
-                    if (checkMove(new Coords(Player.Coords.X, Player.Coords.Y+1)))
+                    if (CheckMove(new Coords(Player.Coords.X, Player.Coords.Y+1)))
                     {
                         none = Map.layout[new Coords(Player.Coords.X, Player.Coords.Y+1)];
                         Map.layout[Player.Coords] = Objects.None;
@@ -97,8 +100,9 @@ namespace Game
             {
                 Win = true;
             }
+            Player.HP-=1;
         }
-        public bool checkMove(Coords coords)
+        public bool CheckMove(Coords coords)
         {
             if (!Map.layout.ContainsKey(coords))
             {
@@ -115,61 +119,58 @@ namespace Game
             return false;
         }
 
-        public bool enemySelectMove()
+        public bool EnemySelectMove(Enemy enemy)
         {
-            foreach(Enemy enemy in Map.EnemyList)
+            Coords enemyCoords = enemy.Coords;
+            Console.WriteLine(enemyCoords);
+
+            int distance = Math.Abs(Player.Coords.X - enemyCoords.X) + Math.Abs(Player.Coords.Y - enemyCoords.Y);
+            
+            int distanceRight = Math.Abs(Player.Coords.X - enemyCoords.X) + Math.Abs(Player.Coords.Y - enemyCoords.Y-1);
+            int distanceLeft = Math.Abs(Player.Coords.X - enemyCoords.X) + Math.Abs(Player.Coords.Y - enemyCoords.Y+1);
+            int distanceUp =  Math.Abs(Player.Coords.X - enemyCoords.X+1) + Math.Abs(Player.Coords.Y - enemyCoords.Y);
+            int distanceDown = Math.Abs(Player.Coords.X - enemyCoords.X-1) + Math.Abs(Player.Coords.Y - enemyCoords.Y);;
+            
+            if(distanceUp < distance)
             {
-                Coords enemyCoords = enemy.Coords;
-                Console.WriteLine(enemyCoords);
+                Coords newCoords = new Coords (enemyCoords.X-1, enemyCoords.Y);
+                if(EnemyCheckMove(enemy, newCoords, enemyCoords))
+                {
+                    return true;
+                }
+            }
 
-                int distance = Math.Abs(Player.Coords.X - enemyCoords.X) + Math.Abs(Player.Coords.Y - enemyCoords.Y);
-                
-                int distanceRight = Math.Abs(Player.Coords.X - enemyCoords.X) + Math.Abs(Player.Coords.Y - enemyCoords.Y-1);
-                int distanceLeft = Math.Abs(Player.Coords.X - enemyCoords.X) + Math.Abs(Player.Coords.Y - enemyCoords.Y+1);
-                int distanceUp =  Math.Abs(Player.Coords.X - enemyCoords.X+1) + Math.Abs(Player.Coords.Y - enemyCoords.Y);
-                int distanceDown = Math.Abs(Player.Coords.X - enemyCoords.X-1) + Math.Abs(Player.Coords.Y - enemyCoords.Y);;
-                
-                if(distanceUp < distance)
+            if( distanceLeft < distance)
+            {
+                Coords newCoords = new Coords (enemyCoords.X, enemyCoords.Y-1);
+                if(EnemyCheckMove(enemy, newCoords, enemyCoords))
                 {
-                    Coords newCoords = new Coords (enemyCoords.X-1, enemyCoords.Y);
-                    if(enemyCheckmove(enemy, newCoords, enemyCoords))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
-
-                if( distanceLeft < distance)
+            }
+            
+            if( distanceDown < distance)
+            {
+                Coords newCoords = new Coords (enemyCoords.X+1, enemyCoords.Y);
+                if(EnemyCheckMove(enemy, newCoords, enemyCoords))
                 {
-                    Coords newCoords = new Coords (enemyCoords.X, enemyCoords.Y-1);
-                    if(enemyCheckmove(enemy, newCoords, enemyCoords))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
-                
-                if( distanceDown < distance)
+            }
+            
+            if( distanceRight < distance)
+            {
+                Coords newCoords = new Coords (enemyCoords.X, enemyCoords.Y+1);
+                if(EnemyCheckMove(enemy, newCoords, enemyCoords))
                 {
-                    Coords newCoords = new Coords (enemyCoords.X+1, enemyCoords.Y);
-                    if(enemyCheckmove(enemy, newCoords, enemyCoords))
-                    {
-                        return true;
-                    }
-                }
-                
-                if( distanceRight < distance)
-                {
-                    Coords newCoords = new Coords (enemyCoords.X, enemyCoords.Y+1);
-                    if(enemyCheckmove(enemy, newCoords, enemyCoords))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
             return false;
             
         }
 
-        public bool enemyCheckmove(Enemy enemy, Coords newCoords, Coords originalCoords)
+        public bool EnemyCheckMove(Enemy enemy, Coords newCoords, Coords originalCoords)
         {
             
             if (!Map.layout.ContainsKey(newCoords))
@@ -196,6 +197,16 @@ namespace Game
                 return false;
             }
             return false;
+        }
+        public void UpdateUI(int rows, int columns)
+        {
+            Console.Clear();
+            Console.WriteLine("Rogue-Like");
+            Console.Write("P = Player | # = Obstacle | M = Minion | B = Boss | V = Victory\n"); 
+            Console.Write("s = Small PowerUp | m = Medium PowerUp | l = Large PowerUp\n");
+            Map.RefreshMap(rows,columns);
+            Console.WriteLine("Level: " + Level + " " + "PlayerHP: " + Player.HP);
+            Console.WriteLine("W to move Up | A to move left | S to move down | D to move right\n");
         }
     }
 }
