@@ -18,7 +18,7 @@ namespace Game
         }
         public bool IsDead()
         {
-            if (HP == 0)
+            if (HP <= 0)
             {
                 return true;
             }

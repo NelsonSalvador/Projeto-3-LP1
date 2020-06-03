@@ -81,13 +81,10 @@ namespace Game
                     EnemyList.Add(enemy);
                 }
             }
-
-            refreshMap(rows, columns);
         }
 
-        public void refreshMap(int rows, int columns)
+        public void RefreshMap(int rows, int columns)
         {
-            Console.Clear();
             foreach(KeyValuePair<Coords, Objects> tile in layout)
             {
                 switch(tile.Value)
@@ -102,7 +99,7 @@ namespace Game
                         Console.Write("# ");
                         break;
                     case Objects.Victory:
-                        Console.Write("O ");
+                        Console.Write("V ");
                         break;
                     case Objects.Minion:
                         
@@ -111,9 +108,7 @@ namespace Game
                     case Objects.Boss:
                         
                         Console.Write("B ");
-                        break;
-                        
-                        
+                        break;  
                 }
 
                 if (tile.Key.Y == (columns-1))

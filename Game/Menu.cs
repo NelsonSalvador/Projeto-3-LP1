@@ -34,7 +34,10 @@ namespace Game
                     break;
 
                 case "4" :
-                    Console.Write("4"); 
+                    Console.Write("Game done by:\n");
+                    Console.Write("Pedro Coutinho 21905323\n");
+                    Console.Write("Nelson Salvador 21904295\n");
+                    Console.Write("Miguel Martinho 21901530\n"); 
                     break;
 
                 case "5" :
