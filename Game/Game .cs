@@ -30,9 +30,12 @@ namespace Game
                 //player move
                 GetInput();
                 //refresh
-                enemySelect();
+                Map.refreshMap(rows, columns);
+
+                bool enemyMove = enemySelectMove();
 
                 Map.refreshMap(rows, columns);
+                
                 //newturn
             }
             if (Win)
@@ -112,50 +115,72 @@ namespace Game
             return false;
         }
 
-        public void enemySelect()
+        public bool enemySelectMove()
         {
             foreach(Enemy enemy in Map.EnemyList)
             {
-                Coords coords = new Coords(enemy.Coords.X, enemy.Coords.Y);
-                Coords newCoords;
-                int taxicabDistance = (Player.Coords.X - coords.Y)+(coords.X - Player.Coords.Y);
+                Coords enemyCoords = enemy.Coords;
+                Console.WriteLine(enemyCoords);
 
-                if (taxicabDistance < (Player.Coords.X - coords.Y)+(coords.X-1 - Player.Coords.Y))
+                int distance = Math.Abs(Player.Coords.X - enemyCoords.X) + Math.Abs(Player.Coords.Y - enemyCoords.Y);
+                
+                int distanceRight = Math.Abs(Player.Coords.X - enemyCoords.X) + Math.Abs(Player.Coords.Y - enemyCoords.Y-1);
+                int distanceLeft = Math.Abs(Player.Coords.X - enemyCoords.X) + Math.Abs(Player.Coords.Y - enemyCoords.Y+1);
+                int distanceUp =  Math.Abs(Player.Coords.X - enemyCoords.X+1) + Math.Abs(Player.Coords.Y - enemyCoords.Y);
+                int distanceDown = Math.Abs(Player.Coords.X - enemyCoords.X-1) + Math.Abs(Player.Coords.Y - enemyCoords.Y);;
+                
+                if(distanceUp < distance)
                 {
-                    newCoords = new Coords(enemy.Coords.X-1, enemy.Coords.Y);
-                    enemyCheckmove(enemy, newCoords, coords);
+                    Coords newCoords = new Coords (enemyCoords.X-1, enemyCoords.Y);
+                    if(enemyCheckmove(enemy, newCoords, enemyCoords))
+                    {
+                        return true;
+                    }
                 }
-                else if (taxicabDistance < (Player.Coords.X - coords.Y)+(coords.X+1 - Player.Coords.Y))
-                {
-                    newCoords = new Coords(enemy.Coords.X+1, enemy.Coords.Y);
-                    enemyCheckmove(enemy, newCoords, coords);
-                }
-                else if (taxicabDistance < (Player.Coords.X - coords.Y-1)+(coords.X - Player.Coords.Y))
-                {
-                    newCoords = new Coords(enemy.Coords.X, enemy.Coords.Y-1);
-                    enemyCheckmove(enemy, newCoords, coords);
 
-                }
-                else if (taxicabDistance < (Player.Coords.X - coords.Y-1)+(coords.X - Player.Coords.Y))
+                if( distanceLeft < distance)
                 {
-                    newCoords = new Coords(enemy.Coords.X, enemy.Coords.Y+1);
-                    enemyCheckmove(enemy, newCoords, coords);
+                    Coords newCoords = new Coords (enemyCoords.X, enemyCoords.Y-1);
+                    if(enemyCheckmove(enemy, newCoords, enemyCoords))
+                    {
+                        return true;
+                    }
                 }
                 
+                if( distanceDown < distance)
+                {
+                    Coords newCoords = new Coords (enemyCoords.X+1, enemyCoords.Y);
+                    if(enemyCheckmove(enemy, newCoords, enemyCoords))
+                    {
+                        return true;
+                    }
+                }
+                
+                if( distanceRight < distance)
+                {
+                    Coords newCoords = new Coords (enemyCoords.X, enemyCoords.Y+1);
+                    if(enemyCheckmove(enemy, newCoords, enemyCoords))
+                    {
+                        return true;
+                    }
+                }
             }
+            return false;
+            
         }
 
-        public void enemyCheckmove(Enemy enemy, Coords newCoords, Coords coords)
+        public bool enemyCheckmove(Enemy enemy, Coords newCoords, Coords originalCoords)
         {
             
-            if (!Map.layout.ContainsKey(enemy.Coords))
+            if (!Map.layout.ContainsKey(newCoords))
             {
-
+                Console.WriteLine("Fds");
+                return false;
             }
-            if (Map.layout[newCoords] == Objects.None)
+            else if (Map.layout[newCoords] == Objects.None)
             {
                 enemy.move(newCoords);
-                if (Map.layout[coords] == Objects.Boss)
+                if (Map.layout[originalCoords] == Objects.Boss)
                 {
                     Map.layout[newCoords] = Objects.Boss;
                 }
@@ -163,10 +188,14 @@ namespace Game
                 {
                     Map.layout[newCoords] = Objects.Minion;
                 }
-                Map.layout[coords] = Objects.None; 
-                                    
+                Map.layout[originalCoords] = Objects.None; 
+                return true;            
             }
-            Console.WriteLine(coords);
+            else if (Map.layout[newCoords] == Objects.Wall)
+            {
+                return false;
+            }
+            return false;
         }
     }
 }
