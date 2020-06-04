@@ -8,7 +8,6 @@ namespace Game
         public Map Map {get; set;}
         public bool Win {get; set;}
         public int Level{get; set;}
-        public Random Random {get; set;}
 
         public Game(int rows, int columns)
         {
@@ -16,7 +15,6 @@ namespace Game
             Player = new Player(rows, columns);
             Map = new Map(rows, columns, Player, Level);
             Win = false;
-            Random = new Random();
             StartGame(rows, columns, Player);       
         }
         public void StartGame(int rows, int columns, Player player)
@@ -191,12 +189,13 @@ namespace Game
             
             if(moveNotAvaiable>0)
             {
-                Console.WriteLine("Entrou");
                 Coords coordsRandom;
-                int randomMove = Random.Next(1, 4);
                 bool validRandomMove = false;
+                int randomMove;
                 while(!validRandomMove)
                 {
+                    randomMove = Map.Random.Next(1, 4);
+                    Console.WriteLine(validRandomMove);
                     switch(moveNotAvaiable)
                     {
                         case 1:
