@@ -81,6 +81,40 @@ namespace Game
                     EnemyList.Add(enemy);
                 }
             }
+
+            //Defines number of Max PowerUps
+            int NumberOfPowerUps = -level + 11;
+            if (NumberOfPowerUps <= 0)
+            {
+                NumberOfPowerUps = 1;
+            }
+            while (NumberOfPowerUps != 0)
+            {
+                int percentage = Random.Next(101);
+                Coords Powerups = new Coords(Random.Next(rows), Random.Next(columns));
+                PowerUp powerUp;
+                if (layout[Powerups] == Objects.None)
+                {
+                    if (percentage <= 50)
+                    {
+                        powerUp = new PowerUp(Powerups);
+                        layout[Powerups] = Objects.SmallPowerups;
+                    }
+                    else if (percentage > 50 && percentage <= 85)
+                    {
+                        powerUp = new PowerUp(Powerups);
+                        layout[Powerups] = Objects.MediumPowerups;
+                    }
+                    else
+                    {
+                        powerUp = new PowerUp(Powerups);
+                        layout[Powerups] = Objects.LargePowerups;
+                    }
+                    NumberOfPowerUps--;
+                }
+            }
+
+            //...
         }
 
         public void RefreshMap(int rows, int columns)
@@ -102,13 +136,20 @@ namespace Game
                         Console.Write("V ");
                         break;
                     case Objects.Minion:
-                        
                         Console.Write("M ");
                         break;
                     case Objects.Boss:
-                        
                         Console.Write("B ");
-                        break;  
+                        break;
+                    case Objects.SmallPowerups:
+                        Console.Write("s ");
+                        break;
+                    case Objects.MediumPowerups:
+                        Console.Write("m ");
+                        break;
+                    case Objects.LargePowerups:
+                        Console.Write("l ");
+                        break;
                 }
 
                 if (tile.Key.Y == (columns-1))
