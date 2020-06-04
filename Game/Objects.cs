@@ -5,7 +5,9 @@ namespace Game
         Wall,
         Minion,
         Boss,
-        Powerups,
+        SmallPowerups,
+        MediumPowerups,
+        LargePowerups,
         Player,
         Victory,
         None
