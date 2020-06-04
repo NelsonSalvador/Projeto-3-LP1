@@ -82,7 +82,7 @@ namespace Game
                 }
             }
 
-            //Defines number of Max PowerUps
+            //Defines number of Max PowerUps (Dificulty needs to be worked)
             int NumberOfPowerUps = -level + 11;
             if (NumberOfPowerUps <= 0)
             {
@@ -113,8 +113,6 @@ namespace Game
                     NumberOfPowerUps--;
                 }
             }
-
-            //...
         }
 
         public void RefreshMap(int rows, int columns)
