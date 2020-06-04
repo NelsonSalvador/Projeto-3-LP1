@@ -53,8 +53,25 @@ namespace Game
         public void GetInput()
         {
             Objects none = Objects.None; 
-            string input = Console.ReadLine();
-            switch (input)
+            //string input = Console.ReadLine();
+            string Input = "";
+            ConsoleKeyInfo input;
+            input = Console.ReadKey();
+            
+            if (input.Key == ConsoleKey.Escape)
+            {
+                System.Environment.Exit(0);
+            }
+            else if (input.Key == ConsoleKey.UpArrow || input.Key == ConsoleKey.W)
+                Input = "w";
+            else if (input.Key == ConsoleKey.DownArrow || input.Key == ConsoleKey.S)
+                Input = "s";
+            else if (input.Key == ConsoleKey.RightArrow || input.Key == ConsoleKey.D)
+                Input = "d";
+            else if (input.Key == ConsoleKey.LeftArrow || input.Key == ConsoleKey.A)
+                Input = "a";
+
+            switch (Input)
             {
                 case "w" :
                     if (CheckMove(new Coords(Player.Coords.X-1, Player.Coords.Y)))
@@ -66,7 +83,7 @@ namespace Game
                     }
                     break;
 
-                case "a" :
+                case "a":
                     if (CheckMove(new Coords(Player.Coords.X, Player.Coords.Y-1)))
                     {
                         none = Map.layout[new Coords(Player.Coords.X, Player.Coords.Y-1)];
@@ -184,7 +201,7 @@ namespace Game
                 }
                 else
                 {
-                    moveNotAvaiable = 0;
+                    //moveNotAvaiable = 0;
                     moveNotAvaiable = 3;
                 }
             }
@@ -218,19 +235,19 @@ namespace Game
                             {
                                 coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y-1);
                                 validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
+                                noMove += 1;
                             }
                             else if(randomMove == 2)
                             {
                                 coordsRandom = new Coords (enemyCoords.X+1, enemyCoords.Y);
                                 validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
+                                noMove += 1;
                             }
                             else if(randomMove == 3)
                             {
                                 coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y+1);
                                 validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
+                                noMove += 1;
                             }
                             break;
                         case 2:
@@ -238,19 +255,19 @@ namespace Game
                             {
                                 coordsRandom = new Coords (enemyCoords.X-1, enemyCoords.Y);
                                 validRandomMove = validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
+                                noMove += 1;
                             }
                             else if(randomMove == 2)
                             {
                                 coordsRandom = new Coords (enemyCoords.X+1, enemyCoords.Y);
                                 validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
+                                noMove += 1;
                             }
                             else if(randomMove == 3)
                             {
                                 coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y+1);
                                 validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
+                                noMove += 1;
                             }
                             break;
                         case 3:
@@ -258,19 +275,19 @@ namespace Game
                             {
                                 coordsRandom = new Coords (enemyCoords.X-1, enemyCoords.Y);
                                 validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
+                                noMove += 1;
                             }
                             else if(randomMove == 2)
                             {
                                 coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y-1);
                                 validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
+                                noMove += 1;
                             }
                             else if(randomMove == 3)
                             {
                                 coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y+1);
                                 validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
+                                noMove += 1;
                             }
                             break;
                         case 4:
@@ -278,23 +295,23 @@ namespace Game
                             {
                                 coordsRandom = new Coords (enemyCoords.X-1, enemyCoords.Y);
                                 validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
+                                noMove += 1;
                             }
                             else if(randomMove == 2)
                             {
                                 coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y-1);
                                 validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
+                                noMove += 1;
                             }
                             else if(randomMove == 3)
                             {
                                 coordsRandom = new Coords (enemyCoords.X+1, enemyCoords.Y);
                                 validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
+                                noMove += 1;
                             }
                             break;
                     }
-                    Console.WriteLine(noMove);
+                    // If minion can´t move 
                     if (noMove == 3)
                     {
                         return true;
@@ -328,7 +345,8 @@ namespace Game
                 Map.layout[originalCoords] = Objects.None; 
                 return true;            
             }
-            else if (Map.layout[newCoords] == Objects.Wall)
+            else if (Map.layout[newCoords] == Objects.Wall || Map.layout[newCoords] == Objects.LargePowerups ||
+                Map.layout[newCoords] == Objects.MediumPowerups || Map.layout[newCoords] == Objects.SmallPowerups)
             {
                 return false;
             }
@@ -336,7 +354,7 @@ namespace Game
         }
         public void UpdateUI(int rows, int columns)
         {
-            //Console.Clear();
+            Console.Clear();
             Console.WriteLine("Rogue-Like");
             Console.Write("P = Player | # = Obstacle | M = Minion | B = Boss | V = Victory\n"); 
             Console.Write("s = Small PowerUp | m = Medium PowerUp | l = Large PowerUp\n");
