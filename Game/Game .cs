@@ -37,7 +37,7 @@ namespace Game
 
                 foreach(Enemy enemy in Map.EnemyList)
                 {
-                    bool enemyMove = EnemySelectMove(enemy);
+                    EnemySelectMove(enemy);
                 }
                 UpdateUI(rows,columns);
                 //newturn
@@ -134,7 +134,7 @@ namespace Game
             return false;
         }
 
-        public bool EnemySelectMove(Enemy enemy)
+        public void EnemySelectMove(Enemy enemy)
         {
             int moveNotAvaiable = 0;
             Coords enemyCoords = enemy.Coords;
@@ -153,158 +153,104 @@ namespace Game
                 if(EnemyCheckMove(enemy, newCoords, enemyCoords))
                 {
                     moveNotAvaiable = 0;
-                    return true;
+                    return ;
                     
                 }
                 else
                 {
-                    moveNotAvaiable = 1;
+                    moveNotAvaiable++;
                 }
             }
-            else if( distanceLeft < distance)
+            
+            if( distanceLeft < distance)
             {
                 newCoords = new Coords (enemyCoords.X, enemyCoords.Y-1);
                 if(EnemyCheckMove(enemy, newCoords, enemyCoords))
                 {
                     moveNotAvaiable = 0;
-                    return true;
+                    return;
                 }
                 else
                 {
-                    moveNotAvaiable = 2;
+                    moveNotAvaiable++;
                 }
             }
-            else if( distanceDown < distance)
+            
+            if( distanceDown < distance)
             {
                 newCoords = new Coords (enemyCoords.X+1, enemyCoords.Y);
                 if(EnemyCheckMove(enemy, newCoords, enemyCoords))
                 {
                     moveNotAvaiable = 0;
-                    return true;
+                    return ;
                 }
                 else
                 {
-                    moveNotAvaiable = 0;
-                    moveNotAvaiable = 3;
+                    moveNotAvaiable++;
                 }
             }
-            else if( distanceRight < distance)
+
+            if( distanceRight < distance)
             {
                 newCoords = new Coords (enemyCoords.X, enemyCoords.Y+1);
                 if(EnemyCheckMove(enemy, newCoords, enemyCoords))
                 {
                     moveNotAvaiable = 0;
-                    return true;
+                    return;
                 }
                 else
                 {
-                    moveNotAvaiable = 4;
+                    moveNotAvaiable++;
                 }
             }
             
             if(moveNotAvaiable>0)
             {
-                Coords coordsRandom;
-                bool validRandomMove = false;
-                int randomMove;
-                int noMove = 0;
-                while(!validRandomMove)
+                int[] validRandom;
+                int numberOfValidRandom = 0;
+                validRandom = EnemyRandomMove(enemy, enemy.Coords);
+
+                for(int i = 0; i < 4 ;i++)
                 {
-                    randomMove = Map.Random.Next(1, 4);
-                    switch(moveNotAvaiable)
-                    {
-                        case 1:
-                            if (randomMove == 1)
-                            {
-                                coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y-1);
-                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
-                            }
-                            else if(randomMove == 2)
-                            {
-                                coordsRandom = new Coords (enemyCoords.X+1, enemyCoords.Y);
-                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
-                            }
-                            else if(randomMove == 3)
-                            {
-                                coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y+1);
-                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
-                            }
-                            break;
-                        case 2:
-                            if (randomMove == 1)
-                            {
-                                coordsRandom = new Coords (enemyCoords.X-1, enemyCoords.Y);
-                                validRandomMove = validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
-                            }
-                            else if(randomMove == 2)
-                            {
-                                coordsRandom = new Coords (enemyCoords.X+1, enemyCoords.Y);
-                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
-                            }
-                            else if(randomMove == 3)
-                            {
-                                coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y+1);
-                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
-                            }
-                            break;
-                        case 3:
-                            if (randomMove == 1)
-                            {
-                                coordsRandom = new Coords (enemyCoords.X-1, enemyCoords.Y);
-                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
-                            }
-                            else if(randomMove == 2)
-                            {
-                                coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y-1);
-                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
-                            }
-                            else if(randomMove == 3)
-                            {
-                                coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y+1);
-                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
-                            }
-                            break;
-                        case 4:
-                            if (randomMove == 1)
-                            {
-                                coordsRandom = new Coords (enemyCoords.X-1, enemyCoords.Y);
-                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
-                            }
-                            else if(randomMove == 2)
-                            {
-                                coordsRandom = new Coords (enemyCoords.X, enemyCoords.Y-1);
-                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
-                            }
-                            else if(randomMove == 3)
-                            {
-                                coordsRandom = new Coords (enemyCoords.X+1, enemyCoords.Y);
-                                validRandomMove = EnemyCheckMove(enemy, coordsRandom, enemyCoords);
-                                noMove =+ 1;
-                            }
-                            break;
-                    }
-                    Console.WriteLine(noMove);
-                    if (noMove == 3)
-                    {
-                        return true;
+                    if (validRandom[i] == 1){
+                        numberOfValidRandom++;
                     }
                 }
-                return true;
-            }
 
-            return false;
-            
+                if (numberOfValidRandom > 0){
+                    bool isValidMove = false;
+
+                    while(!isValidMove)
+                    {
+                        int index = Map.Random.Next(4);
+                        if (validRandom[index] == 1)
+                        {
+                            if(index == 0)
+                            {
+                                newCoords = new Coords (enemyCoords.X-1, enemyCoords.Y);
+                                isValidMove = EnemyCheckMove(enemy, newCoords, enemyCoords);   
+                            }
+                            else if(index == 1)
+                            {
+                                newCoords = new Coords (enemyCoords.X+1, enemyCoords.Y);
+                                isValidMove = EnemyCheckMove(enemy, newCoords, enemyCoords);  
+                            }
+                            else if(index == 2)
+                            {
+                                newCoords = new Coords (enemyCoords.X, enemyCoords.Y-1);
+                                isValidMove = EnemyCheckMove(enemy, newCoords, enemyCoords);  
+                            }
+                            else if(index == 3)
+                            {
+                                newCoords = new Coords (enemyCoords.X, enemyCoords.Y+1);
+                                isValidMove = EnemyCheckMove(enemy, newCoords, enemyCoords);  
+                            }
+                            
+                        }
+                    }
+                }
+            }
+            return;
         }
 
         public bool EnemyCheckMove(Enemy enemy, Coords newCoords, Coords originalCoords)
@@ -328,15 +274,58 @@ namespace Game
                 Map.layout[originalCoords] = Objects.None; 
                 return true;            
             }
+            else if (Map.layout[newCoords] == Objects.Player)
+            {
+                if (Map.layout[originalCoords] == Objects.Boss)
+                {
+                    Player.HP =Player.HP - 10;
+                }
+                else
+                {
+                    Player.HP = Player.HP - 5;
+                }
+                return true;
+            }
             else if (Map.layout[newCoords] == Objects.Wall)
             {
                 return false;
             }
             return false;
         }
+
+        public int[] EnemyRandomMove(Enemy enemy, Coords originalCoords)
+        {
+            int[] validArray = {0, 0, 0, 0};
+            Coords movingUP = new Coords(originalCoords.X-1, originalCoords.Y);
+            Coords movingDown = new Coords(originalCoords.X+1, originalCoords.Y);
+            Coords movingLeft = new Coords(originalCoords.X, originalCoords.Y-1);
+            Coords movingRight = new Coords(originalCoords.X, originalCoords.Y+1);
+
+            if (Map.layout.ContainsKey(movingUP) && Map.layout[movingUP] == Objects.None)
+            {
+                validArray[0] = 1; 
+            }
+
+            if (Map.layout.ContainsKey(movingDown) && Map.layout[movingDown] == Objects.None)
+            {
+                validArray[1] = 1; 
+            }
+
+            if (Map.layout.ContainsKey(movingLeft) && Map.layout[movingLeft] == Objects.None)
+            {
+                validArray[2] = 1; 
+            }
+
+            if (Map.layout.ContainsKey(movingRight) && Map.layout[movingRight] == Objects.None)
+            {
+                validArray[3] = 1; 
+            }
+
+            return validArray;
+        }
         public void UpdateUI(int rows, int columns)
         {
-            //Console.Clear();
+            Console.Clear();
             Console.WriteLine("Rogue-Like");
             Console.Write("P = Player | # = Obstacle | M = Minion | B = Boss | V = Victory\n"); 
             Console.Write("s = Small PowerUp | m = Medium PowerUp | l = Large PowerUp\n");
