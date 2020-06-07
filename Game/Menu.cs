@@ -3,6 +3,8 @@ namespace Game
 {
     public class Menu
     {
+        public Game game;
+        public HighScore highScore;
         public Menu(int rows, int columns)
         {
             UseMenu(rows, columns);
@@ -22,11 +24,11 @@ namespace Game
             switch (inputStr)
             {
                 case "1" :
-                    Game game = new Game(rows,columns);
+                    game = new Game(rows,columns);
                     break;
 
                 case "2" :
-                    HighScore highScore = new HighScore(rows, columns, 0, 1);
+                    highScore = new HighScore(rows, columns, 0, 1);
                     //Console.Write("2"); 
                     break;
 

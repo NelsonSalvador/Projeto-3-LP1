@@ -10,6 +10,7 @@ namespace Game
         {
             int rows = 0;
             int columns = 0;
+            int i = 0;
             if (args.Length < 2)
             {
                 System.Console.WriteLine("Please run Program with with -r and -c arguments");
@@ -31,7 +32,12 @@ namespace Game
                 System.Console.WriteLine("Exemple : dotnet run .\\Program.cs -- -c 21 -r 47");
                 Exit();
             }
-            Menu menu = new Menu(rows, columns);
+            
+            while(i != 1)
+            {
+                Menu menu = new Menu(rows, columns);
+            }
+            
         }
 
         static void Exit()
