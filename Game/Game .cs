@@ -6,6 +6,8 @@ namespace Game
     {
         public Player Player {get; set;}
         public Map Map {get; set;}
+        public HighScore highScore;
+        public Menu menu;
         public bool Win {get; set;}
         public int Level{get; set;}
 
@@ -23,7 +25,7 @@ namespace Game
             while (!Player.IsDead() && !Win)
             {
                 //player move
-                GetInput();
+                GetInput(rows,columns);
                 if (Win)
                     break;
                 if (Player.IsDead())
@@ -31,7 +33,7 @@ namespace Game
                 //refresh
                 UpdateUI(rows,columns);
                 //player move
-                GetInput();
+                GetInput(rows,columns);
                 //refresh
                 UpdateUI(rows,columns);
 
@@ -49,8 +51,13 @@ namespace Game
                 Win = false;
                 StartGame(rows, columns, Player);
             }
+            if (Player.IsDead())
+            {
+                highScore = new HighScore(rows, columns, Level, 0);
+                menu = new Menu(rows, columns);
+            }
         }
-        public void GetInput()
+        public void GetInput(int rows,int columns)
         {
             Objects none = Objects.None; 
             //string input = Console.ReadLine();
@@ -60,7 +67,7 @@ namespace Game
             
             if (input.Key == ConsoleKey.Escape)
             {
-                System.Environment.Exit(0);
+                menu = new Menu(rows, columns);
             }
             else if (input.Key == ConsoleKey.UpArrow || input.Key == ConsoleKey.W)
                 Input = "w";
