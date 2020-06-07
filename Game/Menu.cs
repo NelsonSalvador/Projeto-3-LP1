@@ -26,7 +26,8 @@ namespace Game
                     break;
 
                 case "2" :
-                    Console.Write("2"); 
+                    HighScore highScore = new HighScore(rows, columns, 0, 1);
+                    //Console.Write("2"); 
                     break;
 
                 case "3" :
@@ -41,8 +42,11 @@ namespace Game
                     break;
 
                 case "5" :
-                    Console.Write("5"); 
-                    break;    
+                    System.Environment.Exit(0);
+                    break;
+                default:
+                    Console.WriteLine("Invalid Input");
+                    break; 
             }
         }
     }
