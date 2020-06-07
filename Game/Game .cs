@@ -54,7 +54,6 @@ namespace Game
             if (Player.IsDead())
             {
                 highScore = new HighScore(rows, columns, Level, 0);
-                menu = new Menu(rows, columns);
             }
         }
         public void GetInput(int rows,int columns)
