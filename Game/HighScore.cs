@@ -26,6 +26,7 @@ namespace Game
             int frow = 0;
             int fcolumn = 0;
 
+            //Put the file information into the list scores
             foreach (string line in lines)
             {
                 if (l == 4)
@@ -53,35 +54,47 @@ namespace Game
                 l++;
             }
 
-            File.WriteAllText(Path.Combine(docPath, "HighScores.txt"), String.Empty);
+            scores.Sort();
 
-            int scoresCount = 0;
+            int ScoreCounter = 0;
+            int lastScorePos = 0;
+            //Cicle to count how many scores does this specific map has and the position in the list of the last score
             foreach (Scores sc in scores)
             {
                 if (sc.Rows == rows && sc.Columns == colums)
                 {
-                    scoresCount += 1;
+                    ScoreCounter += 1;
                 }
+
+                if(ScoreCounter == 10)
+                    break;
+                lastScorePos += 1;
             }
 
-            if (scoresCount < 10)
+            //Decide if it is a new high score
+            if (ScoreCounter < 10)
             {
+                scores.Add(new Scores("Nelson", level, rows, colums));
+            }
+            else if (level > scores[lastScorePos].Score)
+            {
+                scores.RemoveAt(lastScorePos);
                 scores.Add(new Scores("Nelson", level, rows, colums));
             }
                 
             scores.Sort();
 
-            
+            // Update the file 
+            File.WriteAllText(Path.Combine(docPath, "HighScores.txt"), String.Empty);
+            StreamWriter writer = new StreamWriter(Path.Combine(docPath, "HighScores.txt"));
             foreach (Scores sc in scores)
             {
-                using (StreamWriter writer = new StreamWriter(Path.Combine(docPath, "HighScores.txt"), true))
-                {
-                    writer.WriteLine(sc.Name);
-                    writer.WriteLine(sc.Score);
-                    writer.WriteLine(sc.Rows);
-                    writer.WriteLine(sc.Columns);
-                }
+                writer.WriteLine(sc.Name);
+                writer.WriteLine(sc.Score);
+                writer.WriteLine(sc.Rows);
+                writer.WriteLine(sc.Columns);
             }
+            writer.Close();
 
         }
 
@@ -97,6 +110,7 @@ namespace Game
             int frow = 0;
             int fcolumn = 0;
 
+            //Put the file information into the list scores
             foreach (string line in lines)
             {
                 if (l == 4)
@@ -123,6 +137,8 @@ namespace Game
 
                 l++;
             }
+
+            //Output the list of HighScores of this MapLayout
             Console.WriteLine($"Top 10 HighScores ({rows} rows | {colums} columns)");
             foreach (Scores sc in scores)
             {

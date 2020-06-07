@@ -22,18 +22,32 @@ namespace Game
         public void StartGame(int rows, int columns, Player player)
         {
             UpdateUI(rows,columns);
-            while (!Player.IsDead() && !Win)
+            while (!Player.IsDead())
             {
                 //player move
                 GetInput(rows,columns);
+
+                // Check if player won after input
                 if (Win)
-                    break;
+                {
+                    Level++;
+                    Map = new Map(rows, columns, Player, Level);
+                    Win = false;
+                }
                 if (Player.IsDead())
                     break;
                 //refresh
                 UpdateUI(rows,columns);
                 //player move
                 GetInput(rows,columns);
+                
+                // Check if player won after input
+                if (Win)
+                {
+                    Level++;
+                    Map = new Map(rows, columns, Player, Level);
+                    Win = false;
+                }
                 //refresh
                 UpdateUI(rows,columns);
 
@@ -44,16 +58,18 @@ namespace Game
                 UpdateUI(rows,columns);
                 //newturn
             }
+            /*
             if (Win)
             {
                 Level++;
                 Map = new Map(rows, columns, Player, Level);
                 Win = false;
                 StartGame(rows, columns, Player);
-            }
+            }*/
             if (Player.IsDead())
             {
                 highScore = new HighScore(rows, columns, Level, 0);
+                menu = new Menu(rows, columns);
             }
         }
         public void GetInput(int rows,int columns)
