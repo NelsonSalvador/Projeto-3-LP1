@@ -15,52 +15,71 @@ namespace Game
         }
         private void SetHighScore(int rows, int colums, int level)
         {
+            List<Scores> scores = new List<Scores>();
+
             string docPath = Directory.GetCurrentDirectory();
             string[] lines = System.IO.File.ReadAllLines(Path.Combine(docPath, "HighScores.txt"));
             int l = 0;
-            string r = Convert.ToString(rows);
-            string c = Convert.ToString(colums);
-            bool highScoreExists = false;
+
+            string name = String.Empty;
+            int score = 0;
+            int frow = 0;
+            int fcolumn = 0;
 
             foreach (string line in lines)
             {
-                if (line.Length >= 10 && line[0] == 'R')
+                if (l == 4)
                 {
-
-                    if (Convert.ToString(lines[l][7]) == r && Convert.ToString(lines[l][18]) == c)
-                    {
-                        highScoreExists = true;
-                        break;
-                    }
-                    
+                    l = 0;
                 }
+                if(l == 0)
+                {
+                    name = line;
+                }
+                if (l == 1)
+                {
+                    score = int.Parse(line);
+                }
+                if (l == 2)
+                {
+                    frow = int.Parse(line);
+                }
+                if (l == 3)
+                {
+                    fcolumn = int.Parse(line);
+                    scores.Add(new Scores(name, score, frow, fcolumn));
+                }
+
                 l++;
             }
-            
-            if (highScoreExists)
+
+            File.WriteAllText(Path.Combine(docPath, "HighScores.txt"), String.Empty);
+
+            int scoresCount = 0;
+            foreach (Scores sc in scores)
             {
-                int x = int.Parse(lines[l+1][19].ToString());
-
-                if (x < level)
+                if (sc.Rows == rows && sc.Columns == colums)
                 {
-                    lines[l] = null;
-                    lines[l + 1] = null;
-                    File.WriteAllText(Path.Combine(docPath, "HighScores.txt"), String.Empty);
-                    File.WriteAllLines(Path.Combine(docPath, "HighScores.txt"), lines);
-                    using (StreamWriter writer = new StreamWriter(Path.Combine(docPath, "HighScores.txt"), true))
-                    {
-                        writer.WriteLine($"Rows : {rows} Columns: {colums}");
-                        writer.WriteLine($"HighScore (Level): {level}");
-                    }
+                    scoresCount += 1;
                 }
-
             }
-            else
+
+            if (scoresCount < 10)
+            {
+                scores.Add(new Scores("Nelson", level, rows, colums));
+            }
+                
+            scores.Sort();
+
+            
+            foreach (Scores sc in scores)
             {
                 using (StreamWriter writer = new StreamWriter(Path.Combine(docPath, "HighScores.txt"), true))
                 {
-                    writer.WriteLine($"Rows : {rows} Columns: {colums}");
-                    writer.WriteLine($"HighScore (Level): {level}");
+                    writer.WriteLine(sc.Name);
+                    writer.WriteLine(sc.Score);
+                    writer.WriteLine(sc.Rows);
+                    writer.WriteLine(sc.Columns);
                 }
             }
 
@@ -68,27 +87,52 @@ namespace Game
 
         private void GetHighScore(int rows, int colums)
         {
+            List<Scores> scores = new List<Scores>();
             string docPath = Directory.GetCurrentDirectory();
             string[] lines = System.IO.File.ReadAllLines(Path.Combine(docPath, "HighScores.txt"));
-            string r = Convert.ToString(rows);
-            string c = Convert.ToString(colums);
             int l = 0;
 
-            Console.WriteLine("Current HighScore: ");
+            string name = String.Empty;
+            int score = 0;
+            int frow = 0;
+            int fcolumn = 0;
+
             foreach (string line in lines)
             {
-                if (line.Length >= 10 && line[0] == 'R')
+                if (l == 4)
                 {
-
-                    if (Convert.ToString(lines[l][7]) == r && Convert.ToString(lines[l][18]) == c)
-                    {
-                        Console.WriteLine(lines[l]);
-                        Console.WriteLine(lines[l+1]);
-                        break;
-                    }
-                    
+                    l = 0;
                 }
+                if(l == 0)
+                {
+                    name = line;
+                }
+                if (l == 1)
+                {
+                    score = int.Parse(line);
+                }
+                if (l == 2)
+                {
+                    frow = int.Parse(line);
+                }
+                if (l == 3)
+                {
+                    fcolumn = int.Parse(line);
+                    scores.Add(new Scores(name, score, frow, fcolumn));
+                }
+
                 l++;
+            }
+            Console.WriteLine($"Top 10 HighScores ({rows} rows | {colums} columns)");
+            foreach (Scores sc in scores)
+            {
+                if (sc.Rows == rows && sc.Columns == colums)
+                {
+                    Console.WriteLine($"Name: {sc.Name}");
+                    Console.WriteLine($"Score: {sc.Score}");
+                    Console.WriteLine("----------------------------");
+                }
+                
             }
             
         }
