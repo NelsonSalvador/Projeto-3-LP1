@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Text;
 namespace Game
 {
     
@@ -11,6 +11,8 @@ namespace Game
             int rows = 0;
             int columns = 0;
             int i = 0;
+            Console.OutputEncoding = Encoding.UTF8;
+            
             if (args.Length < 2)
             {
                 System.Console.WriteLine("Please run Program with with -r and -c arguments");
