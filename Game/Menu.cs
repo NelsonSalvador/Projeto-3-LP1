@@ -48,8 +48,9 @@ namespace Game
                     break;
                 default:
                     Console.WriteLine("Invalid Input");
-                    break; 
+                    break;
             }
+
         }
     }
 }

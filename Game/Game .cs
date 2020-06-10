@@ -2,6 +2,9 @@ using System;
 
 namespace Game
 {
+    /// <summary>
+    /// Creates a new game
+    /// </summary>  
     public class Game
     {
         public Player Player {get; set;}
@@ -11,6 +14,13 @@ namespace Game
         public bool Win {get; set;}
         public int Level{get; set;}
 
+        /// <summary>
+        /// Class constructor instantiates properties
+        /// </summary>
+        /// <param name="rows">amount of rows selected by the player in
+        /// the beggining of the program</param>
+        /// <param name="columns">amount of rows selected by the player in 
+        /// the beggining of the program</param>
         public Game(int rows, int columns)
         {
             Level = 1;
@@ -19,6 +29,15 @@ namespace Game
             Win = false;
             StartGame(rows, columns, Player);       
         }
+        /// <summary>
+        /// Begins the main loop of the game
+        /// </summary>
+        /// <param name="rows">amount of rows selected by the player in
+        /// the beggining of the program</param>
+        /// <param name="columns">amount of rows selected by the player in
+        /// the beggining of the program</param>
+        /// <param name="player"> Instance of the player with his position
+        /// </param>
         public void StartGame(int rows, int columns, Player player)
         {
             UpdateUI(rows,columns);
@@ -58,24 +77,22 @@ namespace Game
                 UpdateUI(rows,columns);
                 //newturn
             }
-            /*
-            if (Win)
-            {
-                Level++;
-                Map = new Map(rows, columns, Player, Level);
-                Win = false;
-                StartGame(rows, columns, Player);
-            }*/
             if (Player.IsDead())
             {
                 highScore = new HighScore(rows, columns, Level, 0);
                 menu = new Menu(rows, columns);
             }
         }
+        /// <summary>
+        /// Handles receiving input and moving player accordingly
+        /// </summary>
+        /// <param name="rows">amount of rows selected by the player in
+        /// the beggining of the program</param>
+        /// <param name="columns">amount of columns selected by the player in
+        /// the beggining of the program</param>
         public void GetInput(int rows,int columns)
         {
             Objects none = Objects.None; 
-            //string input = Console.ReadLine();
             string Input = "";
             ConsoleKeyInfo input;
             input = Console.ReadKey();
@@ -84,54 +101,66 @@ namespace Game
             {
                 menu = new Menu(rows, columns);
             }
-            else if (input.Key == ConsoleKey.UpArrow || input.Key == ConsoleKey.W)
+            else if (input.Key == ConsoleKey.UpArrow ||
+            input.Key == ConsoleKey.W)
                 Input = "w";
-            else if (input.Key == ConsoleKey.DownArrow || input.Key == ConsoleKey.S)
+            else if (input.Key == ConsoleKey.DownArrow ||
+            input.Key == ConsoleKey.S)
                 Input = "s";
-            else if (input.Key == ConsoleKey.RightArrow || input.Key == ConsoleKey.D)
+            else if (input.Key == ConsoleKey.RightArrow ||
+            input.Key == ConsoleKey.D)
                 Input = "d";
-            else if (input.Key == ConsoleKey.LeftArrow || input.Key == ConsoleKey.A)
+            else if (input.Key == ConsoleKey.LeftArrow ||
+            input.Key == ConsoleKey.A)
                 Input = "a";
 
             switch (Input)
             {
                 case "w" :
-                    if (CheckMove(new Coords(Player.Coords.X-1, Player.Coords.Y)))
+                    if (CheckMove(new Coords(Player.Coords.X-1,
+                    Player.Coords.Y)))
                     {
-                        none = Map.layout[new Coords(Player.Coords.X-1, Player.Coords.Y)];
+                        none = Map.layout[new Coords(Player.Coords.X-1,
+                        Player.Coords.Y)];
                         Map.layout[Player.Coords] = Objects.None;
-                        Player.Coords = new Coords(Player.Coords.X-1, Player.Coords.Y);
-                        Map.layout[Player.Coords] = Objects.Player;
+                        Player.Coords = new Coords(Player.Coords.X-1,
+                        Player.Coords.Y);
                     }
                     break;
 
                 case "a":
-                    if (CheckMove(new Coords(Player.Coords.X, Player.Coords.Y-1)))
+                    if (CheckMove(new Coords(Player.Coords.X,
+                    Player.Coords.Y-1)))
                     {
-                        none = Map.layout[new Coords(Player.Coords.X, Player.Coords.Y-1)];
+                        none = Map.layout[new Coords(Player.Coords.X,
+                        Player.Coords.Y-1)];
                         Map.layout[Player.Coords] = Objects.None;
-                        Player.Coords = new Coords(Player.Coords.X, Player.Coords.Y-1);
-                        Map.layout[Player.Coords] = Objects.Player;
+                        Player.Coords = new Coords(Player.Coords.X,
+                        Player.Coords.Y-1);
                     }
                     break;
 
                 case "s" :
-                    if (CheckMove(new Coords(Player.Coords.X+1, Player.Coords.Y)))
+                    if (CheckMove(new Coords(Player.Coords.X+1,
+                    Player.Coords.Y)))
                     {
-                        none = Map.layout[new Coords(Player.Coords.X+1, Player.Coords.Y)];
+                        none = Map.layout[new Coords(Player.Coords.X+1,
+                        Player.Coords.Y)];
                         Map.layout[Player.Coords] = Objects.None;
-                        Player.Coords = new Coords(Player.Coords.X+1, Player.Coords.Y);
-                        Map.layout[Player.Coords] = Objects.Player;
+                        Player.Coords = new Coords(Player.Coords.X+1,
+                        Player.Coords.Y);
                     }
                     break;
 
                 case "d" :
-                    if (CheckMove(new Coords(Player.Coords.X, Player.Coords.Y+1)))
+                    if (CheckMove(new Coords(Player.Coords.X,
+                    Player.Coords.Y+1)))
                     {
-                        none = Map.layout[new Coords(Player.Coords.X, Player.Coords.Y+1)];
+                        none = Map.layout[new Coords(Player.Coords.X,
+                        Player.Coords.Y+1)];
                         Map.layout[Player.Coords] = Objects.None;
-                        Player.Coords = new Coords(Player.Coords.X, Player.Coords.Y+1);
-                        Map.layout[Player.Coords] = Objects.Player;
+                        Player.Coords = new Coords(Player.Coords.X,
+                        Player.Coords.Y+1);
                     }
                     break;
             }
@@ -139,8 +168,15 @@ namespace Game
             {
                 Win = true;
             }
+            Map.layout[Player.Coords] = Objects.Player;
             Player.HP-=1;
         }
+        /// <summary>
+        /// Verifies is the player can move to the requested position
+        /// </summary>
+        /// <param name="coords"> coordinates to which the object is going
+        /// to move to, to compare with whatever is on said coordinates</param>
+        /// <returns></returns>
         public bool CheckMove(Coords coords)
         {
             if (!Map.layout.ContainsKey(coords))
@@ -172,19 +208,32 @@ namespace Game
             }
             return false;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="enemy"></param>
         public void EnemySelectMove(Enemy enemy)
         {
             int moveNotAvaiable = 0;
             Coords enemyCoords = enemy.Coords;
             Coords newCoords;
 
-            int distance = Math.Abs(Player.Coords.X - enemyCoords.X) + Math.Abs(Player.Coords.Y - enemyCoords.Y);
+            //Distance the enemy is from player on current position
+            int distance = Math.Abs(Player.Coords.X - enemyCoords.X) +
+            Math.Abs(Player.Coords.Y - enemyCoords.Y);
             
-            int distanceRight = Math.Abs(Player.Coords.X - enemyCoords.X) + Math.Abs(Player.Coords.Y - enemyCoords.Y-1);
-            int distanceLeft = Math.Abs(Player.Coords.X - enemyCoords.X) + Math.Abs(Player.Coords.Y - enemyCoords.Y+1);
-            int distanceUp =  Math.Abs(Player.Coords.X - enemyCoords.X+1) + Math.Abs(Player.Coords.Y - enemyCoords.Y);
-            int distanceDown = Math.Abs(Player.Coords.X - enemyCoords.X-1) + Math.Abs(Player.Coords.Y - enemyCoords.Y);;
+            //Distance the enemy is from player if he moves right
+            int distanceRight = Math.Abs(Player.Coords.X - enemyCoords.X) +
+            Math.Abs(Player.Coords.Y - enemyCoords.Y-1);
+            //Distance the enemy is from player if he moves left
+            int distanceLeft = Math.Abs(Player.Coords.X - enemyCoords.X) +
+            Math.Abs(Player.Coords.Y - enemyCoords.Y+1);
+            //Distance the enemy is from player if he moves up
+            int distanceUp =  Math.Abs(Player.Coords.X - enemyCoords.X+1) +
+            Math.Abs(Player.Coords.Y - enemyCoords.Y);
+            //Distance the enemy is from player if he moves down
+            int distanceDown = Math.Abs(Player.Coords.X - enemyCoords.X-1) +
+            Math.Abs(Player.Coords.Y - enemyCoords.Y);;
             
             if(distanceUp < distance)
             {
@@ -269,26 +318,34 @@ namespace Game
                         {
                             if(index == 0)
                             {
-                                newCoords = new Coords (enemyCoords.X-1, enemyCoords.Y);
-                                isValidMove = EnemyCheckMove(enemy, newCoords, enemyCoords);   
+                                newCoords = new Coords (enemyCoords.X-1,
+                                enemyCoords.Y);
+                                isValidMove = EnemyCheckMove(enemy, newCoords,
+                                enemyCoords);   
 
                             }
                             else if(index == 1)
                             {
-                                newCoords = new Coords (enemyCoords.X+1, enemyCoords.Y);
-                                isValidMove = EnemyCheckMove(enemy, newCoords, enemyCoords);  
+                                newCoords = new Coords (enemyCoords.X+1,
+                                enemyCoords.Y);
+                                isValidMove = EnemyCheckMove(enemy, newCoords,
+                                enemyCoords);  
 
                             }
                             else if(index == 2)
                             {
-                                newCoords = new Coords (enemyCoords.X, enemyCoords.Y-1);
-                                isValidMove = EnemyCheckMove(enemy, newCoords, enemyCoords);  
+                                newCoords = new Coords (enemyCoords.X,
+                                enemyCoords.Y-1);
+                                isValidMove = EnemyCheckMove(enemy, newCoords,
+                                enemyCoords);  
 
                             }
                             else if(index == 3)
                             {
-                                newCoords = new Coords (enemyCoords.X, enemyCoords.Y+1);
-                                isValidMove = EnemyCheckMove(enemy, newCoords, enemyCoords);  
+                                newCoords = new Coords (enemyCoords.X,
+                                enemyCoords.Y+1);
+                                isValidMove = EnemyCheckMove(enemy, newCoords,
+                                enemyCoords);  
                             }
                             
                         }
@@ -298,8 +355,15 @@ namespace Game
             }
             return;
         }
-
-        public bool EnemyCheckMove(Enemy enemy, Coords newCoords, Coords originalCoords)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="enemy"></param>
+        /// <param name="newCoords"></param>
+        /// <param name="originalCoords"></param>
+        /// <returns></returns>
+        public bool EnemyCheckMove(Enemy enemy, Coords newCoords,
+         Coords originalCoords)
         {
             
             if (!Map.layout.ContainsKey(newCoords))
@@ -338,43 +402,61 @@ namespace Game
             }
             return false;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="enemy"></param>
+        /// <param name="originalCoords"></param>
+        /// <returns></returns>
         public int[] EnemyRandomMove(Enemy enemy, Coords originalCoords)
         {
             int[] validArray = {0, 0, 0, 0};
-            Coords movingUP = new Coords(originalCoords.X-1, originalCoords.Y);
-            Coords movingDown = new Coords(originalCoords.X+1, originalCoords.Y);
-            Coords movingLeft = new Coords(originalCoords.X, originalCoords.Y-1);
-            Coords movingRight = new Coords(originalCoords.X, originalCoords.Y+1);
+            Coords movingUP = new Coords(originalCoords.X-1, 
+            originalCoords.Y);
+            Coords movingDown = new Coords(originalCoords.X+1,
+             originalCoords.Y);
+            Coords movingLeft = new Coords(originalCoords.X, 
+            originalCoords.Y-1);
+            Coords movingRight = new Coords(originalCoords.X, 
+            originalCoords.Y+1);
 
-            if (Map.layout.ContainsKey(movingUP) && Map.layout[movingUP] == Objects.None)
+            if (Map.layout.ContainsKey(movingUP) &&
+             Map.layout[movingUP] == Objects.None)
             {
                 validArray[0] = 1; 
             }
 
-            if (Map.layout.ContainsKey(movingDown) && Map.layout[movingDown] == Objects.None)
+            if (Map.layout.ContainsKey(movingDown) &&
+             Map.layout[movingDown] == Objects.None)
             {
                 validArray[1] = 1; 
             }
 
-            if (Map.layout.ContainsKey(movingLeft) && Map.layout[movingLeft] == Objects.None)
+            if (Map.layout.ContainsKey(movingLeft) &&
+             Map.layout[movingLeft] == Objects.None)
             {
                 validArray[2] = 1; 
             }
 
-            if (Map.layout.ContainsKey(movingRight) && Map.layout[movingRight] == Objects.None)
+            if (Map.layout.ContainsKey(movingRight) &&
+             Map.layout[movingRight] == Objects.None)
             {
                 validArray[3] = 1; 
             }
 
             return validArray;
         }
+        /// <summary>
+        /// Updates the entire User interface
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="columns"></param>
         public void UpdateUI(int rows, int columns)
         {
             Console.Clear();
             Console.WriteLine("Rogue-Like");
-            Console.Write("P = Player | # = Obstacle | M = Minion | B = Boss | V = Victory\n"); 
-            Console.Write("s = Small PowerUp | m = Medium PowerUp | l = Large PowerUp\n");
+            Console.Write("☻ = Player | █ = Obstacle | ☼ = Minion | ☺ = Boss | ֍ = Victory\n"); 
+            Console.Write("♠ = Small PowerUp | ♣ = Medium PowerUp | ♥ = Large PowerUp\n");
             Map.RefreshMap(rows,columns);
             Console.WriteLine("Level: " + Level + " " + "PlayerHP: " + Player.HP);
             Console.WriteLine("W to move Up | A to move left | S to move down | D to move right\n");

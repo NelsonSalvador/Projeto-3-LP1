@@ -18,6 +18,13 @@ namespace Game
 
             Generate(rows, columns, player, level);
         }
+        /// <summary>
+        /// Generates new map and instanciates objects
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="columns"></param>
+        /// <param name="player"></param>
+        /// <param name="level"></param>
         public void Generate(int rows, int columns, Player player, int level)
         {
             //Fill the map with blank available 
@@ -44,7 +51,9 @@ namespace Game
             //Defines the placement of walls
             while (numberofwalls != 0)
             {
-                Coords wall = new Coords(Random.Next(rows), Random.Next(columns));
+                Coords wall = new Coords(Random.Next(rows),
+                Random.Next(columns));
+
                 if (layout[wall] == Objects.None)
                 {
                     layout[wall] = Objects.Wall;
@@ -63,8 +72,10 @@ namespace Game
             while (numberOfEnemies != 0)
             {
                 int percentage = Random.Next(101);
-                Coords enemies = new Coords(Random.Next(rows), Random.Next(columns));
+                Coords enemies = new Coords(Random.Next(rows),
+                Random.Next(columns));
                 Enemy enemy;
+
                 if (layout[enemies] == Objects.None)
                 {
                     if(percentage >= 100 -(5*level))
@@ -91,8 +102,10 @@ namespace Game
             while (NumberOfPowerUps != 0)
             {
                 int percentage = Random.Next(101);
-                Coords Powerups = new Coords(Random.Next(rows), Random.Next(columns));
+                Coords Powerups = new Coords(Random.Next(rows),
+                Random.Next(columns));
                 PowerUp powerUp;
+
                 if (layout[Powerups] == Objects.None)
                 {
                     if (percentage <= 50)
@@ -114,7 +127,11 @@ namespace Game
                 }
             }
         }
-
+        /// <summary>
+        /// Updates map on UI according with dictionary information
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="columns"></param>
         public void RefreshMap(int rows, int columns)
         {
             foreach(KeyValuePair<Coords, Objects> tile in layout)
@@ -125,28 +142,28 @@ namespace Game
                         Console.Write(". ");
                         break;
                     case Objects.Player:
-                        Console.Write("P ");
+                        Console.Write("☻ ");
                         break;
                     case Objects.Wall:
-                        Console.Write("# ");
+                        Console.Write("█ ");
                         break;
                     case Objects.Victory:
-                        Console.Write("V ");
+                        Console.Write("֍ ");
                         break;
                     case Objects.Minion:
-                        Console.Write("M ");
+                        Console.Write("☼ ");
                         break;
                     case Objects.Boss:
-                        Console.Write("B ");
+                        Console.Write("☺ ");
                         break;
                     case Objects.SmallPowerups:
-                        Console.Write("s ");
+                        Console.Write("♠ ");
                         break;
                     case Objects.MediumPowerups:
-                        Console.Write("m ");
+                        Console.Write("♣ ");
                         break;
                     case Objects.LargePowerups:
-                        Console.Write("l ");
+                        Console.Write("♥ ");
                         break;
                 }
 
