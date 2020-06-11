@@ -18,7 +18,10 @@ namespace Game
             List<Scores> scores = new List<Scores>();
 
             string docPath = Directory.GetCurrentDirectory();
-            string[] lines = System.IO.File.ReadAllLines(Path.Combine(docPath, "HighScores.txt"));
+
+            string[] lines = System.IO.File.ReadAllLines
+            (Path.Combine(docPath, "HighScores.txt"));
+            
             int l = 0;
 
             string name = String.Empty;
@@ -58,7 +61,8 @@ namespace Game
 
             int ScoreCounter = 0;
             int lastScorePos = 0;
-            //Cicle to count how many scores does this specific map has and the position in the list of the last score
+            //Cicle to count how many scores does this specific 
+            //map has and the position in the list of the last score
             foreach (Scores sc in scores)
             {
                 if (sc.Rows == rows && sc.Columns == colums)
@@ -74,19 +78,29 @@ namespace Game
             //Decide if it is a new high score
             if (ScoreCounter < 10)
             {
-                scores.Add(new Scores("Nelson", level, rows, colums));
+                Console.WriteLine("New HighScore!");
+                Console.WriteLine("Please write your name: ");
+                string nome = Console.ReadLine();
+                scores.Add(new Scores(nome, level, rows, colums));
             }
             else if (level > scores[lastScorePos].Score)
             {
+                Console.WriteLine("New HighScore!");
+                Console.WriteLine("Please write your name: ");
+                string nome = Console.ReadLine();
                 scores.RemoveAt(lastScorePos);
-                scores.Add(new Scores("Nelson", level, rows, colums));
+                scores.Add(new Scores(nome, level, rows, colums));
             }
                 
             scores.Sort();
 
             // Update the file 
-            File.WriteAllText(Path.Combine(docPath, "HighScores.txt"), String.Empty);
-            StreamWriter writer = new StreamWriter(Path.Combine(docPath, "HighScores.txt"));
+            File.WriteAllText
+            (Path.Combine(docPath, "HighScores.txt"), String.Empty);
+
+            StreamWriter writer = new StreamWriter
+            (Path.Combine(docPath, "HighScores.txt"));
+
             foreach (Scores sc in scores)
             {
                 writer.WriteLine(sc.Name);
@@ -102,7 +116,8 @@ namespace Game
         {
             List<Scores> scores = new List<Scores>();
             string docPath = Directory.GetCurrentDirectory();
-            string[] lines = System.IO.File.ReadAllLines(Path.Combine(docPath, "HighScores.txt"));
+            string[] lines = System.IO.File.ReadAllLines
+            (Path.Combine(docPath, "HighScores.txt"));
             int l = 0;
 
             string name = String.Empty;
@@ -139,7 +154,8 @@ namespace Game
             }
 
             //Output the list of HighScores of this MapLayout
-            Console.WriteLine($"Top 10 HighScores ({rows} rows | {colums} columns)");
+            Console.WriteLine($"Top 10 HighScores " + 
+            $"({rows} rows | {colums} columns)");
             foreach (Scores sc in scores)
             {
                 if (sc.Rows == rows && sc.Columns == colums)

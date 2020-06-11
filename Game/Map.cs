@@ -27,7 +27,7 @@ namespace Game
         /// <param name="level"></param>
         public void Generate(int rows, int columns, Player player, int level)
         {
-            //Fill the map with blank available 
+            //Fill the map with available tiles 
             for (int i = 0; i < rows; i++)
             {
                 for ( int j = 0; j < columns; j++)
@@ -69,60 +69,92 @@ namespace Game
             }
             int numberOfEnemies = Random.Next(1, maxNumberOfEnemies);
             
+            //Spawn enemies while the number of enemys to spawn
+            // is not equal to 0
             while (numberOfEnemies != 0)
             {
+                // chance of spawning a boss
                 int percentage = Random.Next(101);
+
+                // Random coords for the enemy
                 Coords enemies = new Coords(Random.Next(rows),
                 Random.Next(columns));
+
+                //Instantiate a enemy
                 Enemy enemy;
 
+                //Checks if enemy can spawn in that position
                 if (layout[enemies] == Objects.None)
                 {
+                    //Checks if the enemy to spawn is a boss
                     if(percentage >= 100 -(5*level))
                     {
+                        //spawns a boss
                         enemy = new Enemy(enemies, Objects.Boss);
                         layout[enemies] = Objects.Boss;
                     }
                     else
                     {
+                        //spawns a minion
                         enemy = new Enemy(enemies, Objects.Minion);
                         layout[enemies] = Objects.Minion;
                     }
+                    //Number of enemies to spawn decreases
                     numberOfEnemies--;
+
+                    //Add enemy to the list
                     EnemyList.Add(enemy);
                 }
             }
 
-            //Defines number of Max PowerUps (Dificulty needs to be worked)
+            //Defines the max number of PowerUps
             int NumberOfPowerUps = -level + 11;
+            //If NumberOfPowerUps is less or equal to 0~
+            //force to spawn 1 power up
             if (NumberOfPowerUps <= 0)
             {
                 NumberOfPowerUps = 1;
             }
+
+            //Spawn power ups while the number of power ups 
+            // is not equal to 0
             while (NumberOfPowerUps != 0)
             {
+                //Change for the powerups
                 int percentage = Random.Next(101);
+
+                //Random coords for the powerups
                 Coords Powerups = new Coords(Random.Next(rows),
                 Random.Next(columns));
+
+                //Instantiate a power up
                 PowerUp powerUp;
 
+                //Check if can spawn in that position
                 if (layout[Powerups] == Objects.None)
-                {
+                {   
+                    //if percentage is less than 50 spawn
+                    // a small power up
                     if (percentage <= 50)
                     {
                         powerUp = new PowerUp(Powerups);
                         layout[Powerups] = Objects.SmallPowerups;
                     }
+                    //if percentage is in between 50 and 85 spawn
+                    // a medium power up
                     else if (percentage > 50 && percentage <= 85)
                     {
                         powerUp = new PowerUp(Powerups);
                         layout[Powerups] = Objects.MediumPowerups;
                     }
+                    //if percentage is above 85 spawn
+                    // a medium power up
                     else
                     {
                         powerUp = new PowerUp(Powerups);
                         layout[Powerups] = Objects.LargePowerups;
                     }
+                    //decrease the number of power ups to spawn
                     NumberOfPowerUps--;
                 }
             }
@@ -134,8 +166,10 @@ namespace Game
         /// <param name="columns"></param>
         public void RefreshMap(int rows, int columns)
         {
+            // Goes through the dictionary
             foreach(KeyValuePair<Coords, Objects> tile in layout)
             {
+                //Prints the the symbol according to the dictionary
                 switch(tile.Value)
                 {
                     case Objects.None:
@@ -167,6 +201,7 @@ namespace Game
                         break;
                 }
 
+                //Switch line
                 if (tile.Key.Y == (columns-1))
                 {
                     Console.WriteLine("");
