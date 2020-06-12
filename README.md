@@ -5,7 +5,7 @@
 Nelson salvador n21904295 | Pedro Coutinho n21905323 | Miguel Martinho n21901530
 
 Nelson Salvador:
-- Sistema de highscore
+- Highscore system
 - Input system
 - Map and object sync trough dictionary
 - PowerUps
@@ -55,7 +55,7 @@ After the 2 moves have been made, the enemies will move. A *for each* function
 will run trough the enemy list to make sure each enemy can move close to the
 player, if the move that is closest to the player is against a wall, they will
 move in a random direction. The EnemySelect will compare every move an enemy can
-make a choose the one with the samllest distance to the player. if the enemy
+make a choose the one with the smallest distance to the player. if the enemy
 sees he has 2 possible moves with the same distance he will make the first one
 he checked. When the enemy hits a wall the method EnemyRandomMove will ensure
 the enemy moves into a random available direction by making various compares
