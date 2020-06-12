@@ -7,12 +7,44 @@ namespace Game
     /// </summary>  
     public class Game
     {
+        /// <summary>
+        /// Property that contains player instance
+        /// </summary>
+        /// <value></value>
         public Player Player {get; set;}
+
+        /// <summary>
+        /// Property that contains map instance
+        /// </summary>
+        /// <value></value>
         public Map Map {get; set;}
+
+        /// <summary>
+        /// Property that contains highscore instance
+        /// </summary>
         public HighScore highScore;
+
+        /// <summary>
+        /// Property that contains menu instance
+        /// </summary>
         public Menu menu;
+
+        /// <summary>
+        /// Property that contains victory status
+        /// </summary>
+        /// <value></value>
         public bool Win {get; set;}
+
+        /// <summary>
+        /// Property that contains level
+        /// </summary>
+        /// <value></value>
         public int Level{get; set;}
+        
+        /// <summary>
+        /// Property that contains player instance turn message
+        /// </summary>
+        /// <value></value>
         public string feedback{get; set;}
 
         /// <summary>
@@ -20,7 +52,7 @@ namespace Game
         /// </summary>
         /// <param name="rows">amount of rows selected by the player in
         /// the beggining of the program</param>
-        /// <param name="columns">amount of rows selected by the player in 
+        /// <param name="columns">amount of columns selected by the player in 
         /// the beggining of the program</param>
         public Game(int rows, int columns)
         {
@@ -35,7 +67,7 @@ namespace Game
         /// </summary>
         /// <param name="rows">amount of rows selected by the player in
         /// the beggining of the program</param>
-        /// <param name="columns">amount of rows selected by the player in
+        /// <param name="columns">amount of columns selected by the player in
         /// the beggining of the program</param>
         /// <param name="player"> Instance of the player with his position
         /// </param>

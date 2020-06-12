@@ -3,12 +3,42 @@ using System.Collections.Generic;
 
 namespace Game
 {
+    /// <summary>
+    /// Handles map genaration and refresh
+    /// </summary>
     public class Map
     {
-        public Dictionary<Coords , Objects> layout {get; set;}
+        /// <summary>
+        /// Property that contains all the objects for the map
+        /// </summary>
+        /// <value></value>
+        public Dictionary<Coords , Objects> layout {get; set;} 
+
+        /// <summary>
+        /// Property that contains a Random instance to use in map genaration
+        /// </summary>
+        /// <value></value>
         public Random Random {get; set;}
+        
+        /// <summary>
+        /// Property that contains instance of player
+        /// </summary>
+        /// <value></value>
         public Player Player {get; set;}
+
+        /// <summary>
+        /// Property that contains a enemy list to hold all enemies
+        /// </summary>
+        /// <value></value>
         public List<Enemy> EnemyList {get; set;}
+
+        /// <summary>
+        /// Creates a new instance of map
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="columns"></param>
+        /// <param name="player"></param>
+        /// <param name="level"></param>
         public Map(int rows, int columns, Player player, int level)
         {
             Player = player;

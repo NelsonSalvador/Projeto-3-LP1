@@ -1,5 +1,8 @@
 namespace Game
 {
+    /// <summary>
+    /// Has all object types
+    /// </summary>
     public enum Objects
     {
         Wall,
@@ -9,7 +12,7 @@ namespace Game
         MediumPowerups,
         LargePowerups,
         Player,
-        Victory,
+        Victory, 
         None
     }
 }
