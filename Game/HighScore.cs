@@ -6,6 +6,14 @@ namespace Game
 {
     public class HighScore
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rows">Current map rows</param>
+        /// <param name="colums">Current map columns</param>
+        /// <param name="level">Level the player reached</param>
+        /// <param name="option">option for set a new highscore or to print the 
+        /// highscores</param>
         public HighScore(int rows, int colums, int level, int option)
         {
             if (option == 0)
@@ -13,8 +21,15 @@ namespace Game
             else
                 GetHighScore(rows, colums);
         }
+        /// <summary>
+        /// Set and sorts the highscore and writes it on a file
+        /// </summary>
+        /// <param name="rows">Current map rows</param>
+        /// <param name="colums">Current map columns</param>
+        /// <param name="level">Level the player reached</param>
         private void SetHighScore(int rows, int colums, int level)
         {
+            // List of scores
             List<Scores> scores = new List<Scores>();
 
             string docPath = Directory.GetCurrentDirectory();
@@ -112,6 +127,11 @@ namespace Game
 
         }
 
+        /// <summary>
+        /// Reads the file outputs the current map highscores 
+        /// </summary>
+        /// <param name="rows">Current map Rows</param>
+        /// <param name="colums">Current map columns</param>
         private void GetHighScore(int rows, int colums)
         {
             List<Scores> scores = new List<Scores>();
