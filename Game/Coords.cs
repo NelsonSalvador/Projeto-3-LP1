@@ -1,6 +1,8 @@
-  
-namespace Game
+  namespace Game
 {
+    /// <summary>
+    /// Stores all positions
+    /// </summary>
     public struct Coords
     {
         public int X {get;}
@@ -10,10 +12,6 @@ namespace Game
         {
             X = x;
             Y = y;
-        }
-        public override string ToString()
-        {
-            return "{" + X + "," + Y + "}";
         }
     }
 }
