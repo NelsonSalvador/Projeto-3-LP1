@@ -703,11 +703,39 @@ namespace Game
             Console.Clear();
             Console.WriteLine("Rogue-Like");
 
-            Console.Write("☻ = Player | █ = Obstacle | ☼ = Minion" +
-            " | ☺ = Boss | ֍ = Victory\n"); 
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("☻ = Player");
+            Console.ResetColor();
 
-            Console.Write("♠ = Small PowerUp | ♣ = " +
-            "Medium PowerUp | ♥ = Large PowerUp\n");
+            Console.Write(" | ");
+            Console.Write("█ = Obstacle");
+            Console.Write(" | ");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("☼ = Minion");
+            Console.ResetColor();
+
+            Console.Write(" | ");
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.Write("☺ = Boss");
+            Console.ResetColor();
+            Console.Write(" | ");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("֍ = Victory\n");
+            Console.ResetColor();
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("♠ = Small PowerUp");
+            Console.ResetColor();
+            Console.Write(" | ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write(" ♣ = Medium PowerUp");
+            Console.ResetColor();
+            Console.Write(" | ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("♥ = Large PowerUp\n");
+            Console.ResetColor();
 
             Map.RefreshMap(rows,columns);
 

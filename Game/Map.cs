@@ -196,9 +196,11 @@ namespace Game
         /// <param name="columns"></param>
         public void RefreshMap(int rows, int columns)
         {
+            
             // Goes through the dictionary
             foreach(KeyValuePair<Coords, Objects> tile in layout)
             {
+                Console.BackgroundColor = ConsoleColor.Black;
                 //Prints the the symbol according to the dictionary
                 switch(tile.Value)
                 {
@@ -206,30 +208,45 @@ namespace Game
                         Console.Write(". ");
                         break;
                     case Objects.Player:
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("☻ ");
+                        Console.ResetColor();
                         break;
                     case Objects.Wall:
                         Console.Write("█ ");
                         break;
                     case Objects.Victory:
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("֍ ");
+                        Console.ResetColor();
                         break;
                     case Objects.Minion:
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("☼ ");
+                        Console.ResetColor();
                         break;
                     case Objects.Boss:
+                        Console.ForegroundColor = ConsoleColor.Magenta;
                         Console.Write("☺ ");
+                        Console.ResetColor();
                         break;
                     case Objects.SmallPowerups:
+                        Console.ForegroundColor = ConsoleColor.Blue;
                         Console.Write("♠ ");
+                        Console.ResetColor();
                         break;
                     case Objects.MediumPowerups:
+                        Console.ForegroundColor = ConsoleColor.Cyan;
                         Console.Write("♣ ");
+                        Console.ResetColor();
                         break;
                     case Objects.LargePowerups:
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.Write("♥ ");
+                        Console.ResetColor();
                         break;
                 }
+                
 
                 //Switch line
                 if (tile.Key.Y == (columns-1))
@@ -237,6 +254,7 @@ namespace Game
                     Console.WriteLine("");
                 }
             }
+            Console.ResetColor();
         }
     }
 }

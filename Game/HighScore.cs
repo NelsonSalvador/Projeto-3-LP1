@@ -7,7 +7,7 @@ namespace Game
     public class HighScore
     {
         /// <summary>
-        /// 
+        /// Decides if it is to set or print the highscores
         /// </summary>
         /// <param name="rows">Current map rows</param>
         /// <param name="colums">Current map columns</param>
