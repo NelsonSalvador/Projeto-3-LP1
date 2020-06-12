@@ -28,6 +28,10 @@ Miguel Martinho:
 - Main menu
 - debugging
 
+## Git repository
+
+https://github.com/NelsonSalvador/Projeto-3-LP1
+
 ## Program Architecture
 
 Program starts with input given by player on row and column size. Then creates
