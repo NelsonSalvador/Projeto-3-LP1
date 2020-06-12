@@ -23,6 +23,7 @@ namespace Game
                 SetHighScore(rows, colums, level);
             else
                 GetHighScore(rows, colums);
+
         }
         /// <summary>
         /// Set and sorts the highscore and writes it on a file
@@ -36,8 +37,16 @@ namespace Game
             List<Scores> scores = new List<Scores>();
 
             string docPath = Directory.GetCurrentDirectory();
+            string[] lines;
 
-            string[] lines = System.IO.File.ReadAllLines
+            FileStream file;
+            if (!File.Exists(docPath+"\\HighScores.txt"))
+            {
+                file = File.Create(docPath+"\\HighScores.txt");
+                file.Close();
+            }
+
+            lines = System.IO.File.ReadAllLines
             (Path.Combine(docPath, "HighScores.txt"));
             
             int l = 0;
@@ -139,7 +148,16 @@ namespace Game
         {
             List<Scores> scores = new List<Scores>();
             string docPath = Directory.GetCurrentDirectory();
-            string[] lines = System.IO.File.ReadAllLines
+            string[] lines;
+
+            FileStream file;
+            if (!File.Exists(docPath+"\\HighScores.txt"))
+            {
+                file = File.Create(docPath+"\\HighScores.txt");
+                file.Close();
+            }
+
+            lines = System.IO.File.ReadAllLines
             (Path.Combine(docPath, "HighScores.txt"));
             int l = 0;
 
