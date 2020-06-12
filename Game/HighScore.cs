@@ -4,10 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 namespace Game
 {
+    /// <summary>
+    /// Validates scores and set Highscores
+    /// </summary>
     public class HighScore
     {
         /// <summary>
-        /// 
+        /// Sets or prints the highscores
         /// </summary>
         /// <param name="rows">Current map rows</param>
         /// <param name="colums">Current map columns</param>
