@@ -1,8 +1,8 @@
 using System;
 namespace Game
-{
+{ 
     /// <summary>
-    /// Handles Scores
+    /// Stores scores information
     /// </summary>
     public struct Scores : IComparable<Scores>
     {
@@ -16,10 +16,8 @@ namespace Game
         /// </summary>
         /// <param name="name"> The player name </param>
         /// <param name="score">The Player score</param>
-        /// <param name="rows">The rows of the map on witch the score was
-        ///  set</param>
-        /// <param name="columns">The columns of the map on witch the score was
-        ///  set</param>
+        /// <param name="rows">The rows of the map on witch the score was set</param>
+        /// <param name="columns">The columns of the map on witch the score was set</param>
         public Scores(string name, int score, int rows, int columns)
         {
             Name = name;
